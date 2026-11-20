@@ -297,6 +297,11 @@ button { font:inherit; color:inherit; border:none; cursor:pointer; }
 .weblinks[hidden] { display:none; }
 .weblinks a { font-size:13px; color:var(--fg); text-decoration:none; background:var(--panel); border:1px solid var(--panel-b); border-radius:12px; padding:6px 12px; }
 
+/* сохранение прогресса */
+.savecode { width:100%; height:86px; resize:none; border-radius:12px; border:1px solid var(--panel-b); background:rgba(0,0,0,.25); color:var(--fg);
+  font:12px/1.35 ui-monospace,Consolas,monospace; padding:8px; word-break:break-all; user-select:text; -webkit-user-select:text; }
+.card h3 { margin:16px 0 8px; font-size:17px; }
+
 /* эффекты */
 #fx { position:fixed; inset:0; pointer-events:none; z-index:50; }
 .stream { position:fixed; border-radius:3px; transform-origin:50% 0; }
@@ -712,10 +717,11 @@ function openSettings() {
   const total = starSum();
   const c = modal(`<h2>${tr('settings')}</h2>
     <div class="set">${tr('language')}<select id="langSel">${I18N_LANGS.map(l => `<option value="${l.id}"${l.id === S.lang ? ' selected' : ''}>${l.name}</option>`).join('')}</select></div>${toggleRow(tr('sound'), 'sound')}${toggleRow(tr('vibration'), 'vib')}${toggleRow(tr('glyphs'), 'glyph')}${toggleRow(tr('fastAnim'), 'fast')}${toggleRow(tr('shuffle'), 'remix')}
-    <div class="btns" style="margin:14px 0 8px"><button class="btn" id="setShop">${tr('designShop')}</button></div>
+    <div class="btns" style="margin:14px 0 8px"><button class="btn" id="setShop">${tr('designShop')}</button><button class="btn" id="setSave">${tr('saveProg')}</button></div>
     <div class="btns"><button class="btn" id="resetBtn">${tr('reset')}</button><button class="btn pri" id="okBtn">${tr('done')}</button></div>`);
   c.querySelectorAll('.sw').forEach(s => s.onclick = () => { S[s.dataset.k] = !S[s.dataset.k]; s.classList.toggle('on'); save(); snd.tap(); if (!$('game').hidden && !anims) renderAll(); });
   $('setShop').onclick = () => openShop();
+  $('setSave').onclick = () => openSaveScreen();
   $('langSel').onchange = e => { S.lang = e.target.value; save(); applyI18n(); showHome(); openSettings(); };
   $('okBtn').onclick = () => closeModal();
   $('resetBtn').onclick = () => {
@@ -737,6 +743,60 @@ function openInfo() {
     ${known.length < Object.keys(MICON).length ? `<div><span>✨</span>${tr('howMore')}</div>` : ''}
   </div><div class="btns" style="margin-top:12px"><button class="btn pri" onclick="closeModal()">${tr('gotIt')}</button></div>`);
 }
+// ---------- Сохранение прогресса: код или файл ----------
+// Формат: ZLV1.<base64 от JSON сохранения>.<контрольная сумма> — так испорченный при копировании код не загрузится
+const IN_APP = typeof window.AndroidBridge !== 'undefined';
+function chk(str) { let h = 2166136261; for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0).toString(36); }
+function exportCode() {
+  const b = btoa(unescape(encodeURIComponent(JSON.stringify(S))));
+  return 'ZLV1.' + b + '.' + chk(b);
+}
+function parseCode(code) {
+  const m = String(code).replace(/\s+/g, '').match(/^ZLV1\.([A-Za-z0-9+/=]+)\.([a-z0-9]+)$/);
+  if (!m || chk(m[1]) !== m[2]) return null;
+  try { const d = JSON.parse(decodeURIComponent(escape(atob(m[1])))); return d && typeof d === 'object' && d.stars ? d : null; } catch (e) { return null; }
+}
+async function copyText(text, area) {
+  try { await navigator.clipboard.writeText(text); return true; } catch (e) {}
+  try { area.focus(); area.select(); return document.execCommand('copy'); } catch (e) { return false; }
+}
+function openSaveScreen() {
+  const code = exportCode();
+  const c = modal(`<div class="big">💾</div><h2>${tr('saveProg').replace(/^\S+\s/, '')}</h2><p>${tr('saveText')}</p>
+    <textarea class="savecode" id="svCode" readonly>${code}</textarea>
+    <div class="btns" style="margin-top:8px"><button class="btn" id="svCopy">${tr('copy')}</button>${IN_APP ? `<button class="btn" id="svShare">${tr('share')}</button>` : `<button class="btn" id="svFile">${tr('download')}</button>`}</div>
+    <h3>${tr('loadTitle')}</h3>
+    <textarea class="savecode" id="svIn" placeholder="${tr('pastePh')}"></textarea>
+    <div class="btns" style="margin-top:8px"><button class="btn pri" id="svLoad">${tr('loadCode')}</button>${IN_APP ? '' : `<button class="btn" id="svOpen">${tr('loadFile')}</button><input type="file" id="svPick" accept=".zlv,.txt,text/plain" hidden>`}</div>
+    <div class="btns" style="margin-top:14px"><button class="btn" onclick="closeModal()">${tr('done')}</button></div>`);
+  $('svCode').onclick = e => e.target.select();
+  $('svCopy').onclick = async () => { toast(tr(await copyText(code, $('svCode')) ? 'copied' : 'copyFail')); };
+  if ($('svShare')) $('svShare').onclick = () => { try { AndroidBridge.share(code); } catch (e) { toast(tr('copyFail')); } };
+  if ($('svFile')) $('svFile').onclick = () => {
+    const a = document.createElement('a'), d = new Date();
+    a.href = URL.createObjectURL(new Blob([code], { type:'text/plain' }));
+    a.download = `zelevar-${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}.zlv`;
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  };
+  if ($('svOpen')) {
+    $('svOpen').onclick = () => $('svPick').click();
+    $('svPick').onchange = e => { const f = e.target.files[0]; if (!f) return; f.text().then(t => { $('svIn').value = t.trim(); importCode(t); }); };
+  }
+  $('svLoad').onclick = () => importCode($('svIn').value);
+}
+function importCode(text) {
+  const d = parseCode(text);
+  if (!d) { snd.err(); return toast(tr('badCode')); }
+  const lv = Math.min(d.unlocked || 1, TOTAL), st = Object.values(d.stars || {}).reduce((a, b) => a + b, 0);
+  modal(`<div class="big">♻️</div><h2>${tr('replaceQ')}</h2><p>${tr('replaceText', lv, st)}</p>
+    <div class="btns"><button class="btn" id="rpNo">${tr('cancel')}</button><button class="btn dng" id="rpYes">${tr('replaceYes')}</button></div>`);
+  $('rpNo').onclick = () => openSaveScreen();
+  $('rpYes').onclick = () => {
+    try { localStorage.setItem('zelevar-v1', JSON.stringify(d)); } catch (e) {}
+    toast(tr('loaded')); setTimeout(() => location.reload(), 500);
+  };
+}
+
 // ---------- Платные инструменты и заработок звёзд ----------
 const PRICE = { undo:1, hint:3, add:5 }, FREE_UNDO = 3;
 const GIFT = [5, 7, 9, 12, 15, 18, 30];
