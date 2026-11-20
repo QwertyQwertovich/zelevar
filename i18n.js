@@ -7,6 +7,7 @@ window.I18N_LANGS = [
 window.I18N = {};
 
 I18N.ru = {
+  install:'📲 Установить', installTitle:'Установка на главный экран', installIOS:'В Safari нажмите «Поделиться» (квадрат со стрелкой), затем «На экран „Домой“». Игра появится среди приложений и будет работать без интернета.', installOther:'Откройте меню браузера (⋮ или ⋯) и выберите «Установить приложение» или «Добавить на главный экран». Игра появится среди приложений и будет работать без интернета.', installed:'Игра установлена',
   saveProg:'💾 Сохранение прогресса',
   saveText:'Скопируйте код или сохраните его — по нему можно восстановить уровни, звёзды и покупки на любом устройстве.',
   copy:'📋 Копировать',
@@ -107,6 +108,7 @@ I18N.ru = {
 };
 
 I18N.en = {
+  install:'📲 Install', installTitle:'Add to home screen', installIOS:'In Safari tap Share (the square with an arrow), then “Add to Home Screen”. The game will appear among your apps and work offline.', installOther:'Open the browser menu (⋮ or ⋯) and choose “Install app” or “Add to Home screen”. The game will appear among your apps and work offline.', installed:'Game installed',
   saveProg:'💾 Save progress',
   saveText:'Copy the code or save it — it restores your levels, stars and purchases on any device.',
   copy:'📋 Copy',
@@ -207,6 +209,7 @@ I18N.en = {
 };
 
 I18N.uk = {
+  install:'📲 Встановити', installTitle:'Встановлення на головний екран', installIOS:'У Safari натисніть «Поділитися» (квадрат зі стрілкою), потім «На початковий екран». Гра з’явиться серед застосунків і працюватиме без інтернету.', installOther:'Відкрийте меню браузера (⋮ або ⋯) і виберіть «Встановити застосунок» або «Додати на головний екран». Гра з’явиться серед застосунків і працюватиме без інтернету.', installed:'Гру встановлено',
   saveProg:'💾 Збереження прогресу',
   saveText:'Скопіюйте код або збережіть його — за ним можна відновити рівні, зірки та покупки на будь-якому пристрої.',
   copy:'📋 Копіювати',
@@ -307,6 +310,7 @@ I18N.uk = {
 };
 
 I18N.de = {
+  install:'📲 Installieren', installTitle:'Zum Startbildschirm', installIOS:'Tippe in Safari auf „Teilen“ (Quadrat mit Pfeil) und dann auf „Zum Home-Bildschirm“. Das Spiel erscheint bei deinen Apps und läuft offline.', installOther:'Öffne das Browsermenü (⋮ oder ⋯) und wähle „App installieren“ oder „Zum Startbildschirm hinzufügen“. Das Spiel erscheint bei deinen Apps und läuft offline.', installed:'Spiel installiert',
   saveProg:'💾 Fortschritt sichern',
   saveText:'Kopiere den Code oder speichere ihn — damit stellst du Level, Sterne und Käufe auf jedem Gerät wieder her.',
   copy:'📋 Kopieren',
@@ -407,6 +411,7 @@ I18N.de = {
 };
 
 I18N.fr = {
+  install:'📲 Installer', installTitle:'Ajouter à l’écran d’accueil', installIOS:'Dans Safari, touche Partager (le carré avec une flèche), puis « Sur l’écran d’accueil ». Le jeu apparaîtra parmi tes apps et fonctionnera hors ligne.', installOther:'Ouvre le menu du navigateur (⋮ ou ⋯) et choisis « Installer l’application » ou « Ajouter à l’écran d’accueil ». Le jeu apparaîtra parmi tes apps et fonctionnera hors ligne.', installed:'Jeu installé',
   saveProg:'💾 Sauvegarder la progression',
   saveText:'Copie le code ou enregistre-le — il restaure tes niveaux, étoiles et achats sur n’importe quel appareil.',
   copy:'📋 Copier',
@@ -507,6 +512,7 @@ I18N.fr = {
 };
 
 I18N.es = {
+  install:'📲 Instalar', installTitle:'Añadir a la pantalla de inicio', installIOS:'En Safari toca Compartir (el cuadrado con una flecha) y luego «Añadir a pantalla de inicio». El juego aparecerá entre tus apps y funcionará sin conexión.', installOther:'Abre el menú del navegador (⋮ o ⋯) y elige «Instalar aplicación» o «Añadir a pantalla de inicio». El juego aparecerá entre tus apps y funcionará sin conexión.', installed:'Juego instalado',
   saveProg:'💾 Guardar progreso',
   saveText:'Copia el código o guárdalo: con él recuperas niveles, estrellas y compras en cualquier dispositivo.',
   copy:'📋 Copiar',
@@ -607,6 +613,7 @@ I18N.es = {
 };
 
 I18N.pt = {
+  install:'📲 Instalar', installTitle:'Adicionar à tela inicial', installIOS:'No Safari toque em Compartilhar (o quadrado com uma seta) e depois em «Adicionar à Tela de Início». O jogo aparecerá entre seus apps e funcionará offline.', installOther:'Abra o menu do navegador (⋮ ou ⋯) e escolha «Instalar app» ou «Adicionar à tela inicial». O jogo aparecerá entre seus apps e funcionará offline.', installed:'Jogo instalado',
   saveProg:'💾 Salvar progresso',
   saveText:'Copie o código ou salve-o: com ele você recupera níveis, estrelas e compras em qualquer aparelho.',
   copy:'📋 Copiar',
@@ -707,6 +714,7 @@ I18N.pt = {
 };
 
 I18N.zh = {
+  install:'📲 安装', installTitle:'添加到主屏幕', installIOS:'在 Safari 中点按“分享”（带箭头的方框），然后选择“添加到主屏幕”。游戏会出现在应用列表中，并可离线运行。', installOther:'打开浏览器菜单（⋮ 或 ⋯），选择“安装应用”或“添加到主屏幕”。游戏会出现在应用列表中，并可离线运行。', installed:'游戏已安装',
   saveProg:'💾 保存进度',
   saveText:'复制或保存这段代码——在任何设备上都能用它恢复关卡、星星和购买内容。',
   copy:'📋 复制',

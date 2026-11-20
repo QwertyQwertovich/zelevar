@@ -365,7 +365,7 @@ button { font:inherit; color:inherit; border:none; cursor:pointer; }
     <button id="dailyBtn"><span>🧪</span><b data-t="daily"></b></button>
     <button id="achBtn"><span>🏆</span><b data-t="awards"></b></button>
   </div>
-  <div class="weblinks" id="webLinks" hidden><a id="apkLink" data-t="dlAndroid"></a><a id="relLink" data-t="releases" target="_blank" rel="noopener"></a></div>
+  <div class="weblinks" id="webLinks" hidden><a id="installBtn" href="#" data-t="install" hidden></a><a id="apkLink" data-t="dlAndroid"></a><a id="relLink" data-t="releases" target="_blank" rel="noopener"></a></div>
   <div class="tabs" id="tabs"></div>
   <div id="grid"></div>
 </section>
@@ -1492,6 +1492,26 @@ window.addEventListener('resize', () => { if (!$('game').hidden && !anims) rende
   $('apkLink').href = base + '/latest/download/Zelevar.apk'; $('relLink').href = base;
   $('webLinks').hidden = false;
 })();
+// ---------- Установка как веб-приложение (PWA) ----------
+let installPrompt = null;
+const isStandalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+if (location.protocol === 'https:' && 'serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+if (/^https?:$/.test(location.protocol) && !isStandalone()) $('installBtn').hidden = false;
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installPrompt = e; });
+window.addEventListener('appinstalled', () => { installPrompt = null; $('installBtn').hidden = true; toast(tr('installed')); });
+$('installBtn').onclick = async e => {
+  e.preventDefault();
+  if (installPrompt) {
+    installPrompt.prompt();
+    const r = await installPrompt.userChoice.catch(() => null);
+    installPrompt = null;
+    if (r && r.outcome === 'accepted') $('installBtn').hidden = true;
+    return;
+  }
+  modal(`<div class="big">📲</div><h2>${tr('installTitle')}</h2><p>${tr(isIOS() ? 'installIOS' : 'installOther')}</p>
+    <div class="btns"><button class="btn pri" onclick="closeModal()">${tr('gotIt')}</button></div>`);
+};
 applyI18n();
 applyTheme();
 showHome();
