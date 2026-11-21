@@ -302,6 +302,39 @@ button { font:inherit; color:inherit; border:none; cursor:pointer; }
   font:12px/1.35 ui-monospace,Consolas,monospace; padding:8px; word-break:break-all; user-select:text; -webkit-user-select:text; }
 .card h3 { margin:16px 0 8px; font-size:17px; }
 
+/* механики 320+ */
+.flask.narrowf .neck { width:34%; }
+.flask.mirrorf .body { border-color:#d8e8ff; box-shadow:inset 0 0 0 2px rgba(255,255,255,.22), inset 0 -6px 14px rgba(0,0,0,.25), 0 6px 18px rgba(0,0,0,.25); }
+.flask.mirrorf .gloss { left:auto; right:16%; }
+.flask.boilf .body::after { content:''; position:absolute; left:8%; right:8%; bottom:4%; height:34%; pointer-events:none; z-index:2; opacity:.85;
+  background-image:radial-gradient(circle,rgba(255,255,255,.75) 0 2px,transparent 3px),radial-gradient(circle,rgba(255,255,255,.5) 0 1.5px,transparent 2.5px);
+  background-size:11px 13px, 7px 17px; animation:fizz 1.1s linear infinite; }
+.flask.boilanim .body { animation:boilw .55s ease; }
+@keyframes boilw { 30% { transform:scale(1.06,.95); } 65% { transform:scale(.97,1.03); } }
+.flask.settle .body { animation:settle .5s ease; }
+@keyframes settle { 40% { filter:brightness(1.45); } }
+.topbadge { position:absolute; top:calc(var(--uh)*-1); left:50%; transform:translateX(-50%); background:#2a2050; border:1px solid var(--panel-b); border-radius:999px;
+  padding:1px 7px; font-size:calc(var(--uh)*0.34); white-space:nowrap; z-index:7; pointer-events:none; }
+.topbadge.bomb { background:#7a1020; border-color:#ff6b6b; }
+.topbadge.bomb.hot { animation:pulse .8s infinite; }
+.cracks { position:absolute; left:0; right:0; bottom:0; pointer-events:none; z-index:4; border-radius:0 0 calc(var(--uh)*0.62) calc(var(--uh)*0.62);
+  background:linear-gradient(120deg,transparent 45%,rgba(255,255,255,.75) 46%,transparent 48%),linear-gradient(60deg,transparent 62%,rgba(255,255,255,.6) 63%,transparent 65%),
+  linear-gradient(160deg,transparent 25%,rgba(255,255,255,.55) 26%,transparent 28%); }
+.flask.broken .body { filter:grayscale(.75) brightness(.65); }
+.frostl { position:absolute; left:0; right:0; z-index:3; pointer-events:none; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(160deg,rgba(225,247,255,.78),rgba(150,210,255,.5) 50%,rgba(215,242,255,.72)); box-shadow:inset 0 0 10px rgba(255,255,255,.85); border-top:2px solid rgba(240,252,255,.95); }
+.frostl b { background:#2d7bd6; color:#fff; border-radius:999px; padding:0 6px; font-size:calc(var(--uh)*0.3); }
+.u.heavy { box-shadow:inset 0 -7px 10px rgba(0,0,0,.4), inset 0 0 0 1px rgba(255,255,255,.3); }
+.u .hv { position:absolute; right:10%; top:50%; transform:translateY(-50%); font-style:normal; font-size:calc(var(--uh)*0.36); opacity:.6; }
+#legend { flex-wrap:wrap; gap:4px 12px; }
+#legend .lg { display:inline-flex; align-items:center; gap:5px; }
+#legend i { position:relative; }
+#legend i.ok::after { content:'✓'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-style:normal; font-size:12px; font-weight:800; color:#fff; text-shadow:0 0 3px #000; }
+#legend em { font-style:normal; opacity:.6; }
+.ver { font-size:12px; color:var(--muted); margin-top:6px; }
+
+body.nobadges .badge { display:none; }
+
 /* эффекты */
 #fx { position:fixed; inset:0; pointer-events:none; z-index:50; }
 .stream { position:fixed; border-radius:3px; transform-origin:50% 0; }
@@ -475,12 +508,13 @@ const SHOP = {
 const shopItem = (cat, id) => SHOP[cat].items.find(x => x.id === id) || SHOP[cat].items[0];
 
 // Значки механик; названия и описания — в i18n.js (mt.*, md.*)
-const MICON = { hidden:'❔', ice:'❄️', blitz:'⏱️', funnel:'🔻', lock:'🔒', tall:'🧪', deep:'🌊', stone:'🪨', dark:'🌑', filter:'🎨', seal:'🔴', tap:'🚰', recipe:'📜' };
+const MICON = { hidden:'❔', ice:'❄️', blitz:'⏱️', funnel:'🔻', lock:'🔒', tall:'🧪', deep:'🌊', stone:'🪨', dark:'🌑', filter:'🎨', seal:'🔴', tap:'🚰', recipe:'📜',
+  narrow:'🫗', heavy:'⚖️', order:'📋', boil:'♨️', bomb:'💥', frost:'🧊', crack:'💔', mirror:'🪞' };
 const INFOf = k => [MICON[k], tr('mt.' + k), tr('md.' + k)];
 const RICON = { hard:'🔥', boss:'👑', blitz:'⏱️', recipe:'📜' };
 
 // ---------- Сохранение ----------
-const S = { unlocked:1, stars:{}, sound:true, vib:true, glyph:false, fast:false, remix:true, seen:{}, owned:{}, equip:{}, spent:0, bonus:0, gift:{ last:'', streak:0 }, dailyDone:'', ach:{}, stats:{} };
+const S = { unlocked:1, stars:{}, sound:true, vib:true, glyph:false, fast:false, remix:true, badges:true, seen:{}, owned:{}, equip:{}, spent:0, bonus:0, gift:{ last:'', streak:0 }, dailyDone:'', ach:{}, stats:{} };
 try { Object.assign(S, JSON.parse(localStorage.getItem('zelevar-v1') || '{}')); } catch (e) {}
 function initShopState() {
   if (typeof S.theme === 'number') {          // старые сохранения: темы открывались по порогу звёзд
@@ -540,6 +574,8 @@ const snd = {
   unlock: () => { tone(900, .08, 'square', .05); tone(1350, .2, 'triangle', .08, .08); },
   thaw: () => [1500, 1200, 1700].forEach((f, k) => tone(f, .09, 'triangle', .05, k * .05)),
   reveal: () => tone(980, .12, 'sine', .07, 0, 1500),
+  boil: () => { for (let k = 0; k < 5; k++) tone(180 + Math.random() * 160, .09, 'sine', .06, k * .05, 320 + Math.random() * 200); },
+  boom: () => { tone(90, .5, 'sawtooth', .12, 0, 40); tone(140, .3, 'square', .06, .02, 60); },
   win: () => [523, 659, 784, 1046, 784, 1046, 1318].forEach((f, k) => tone(f, .25, 'triangle', .1, k * .09)),
   lose: () => [440, 370, 311].forEach((f, k) => tone(f, .25, 'sawtooth', .05, k * .15)),
 };
@@ -559,6 +595,7 @@ const settle = (anim, ms) => Promise.race([anim.finished.catch(() => {}), wait(m
   }
 })();
 function applyTheme() {
+  document.body.classList.toggle('nobadges', S.badges === false);
   const t = shopItem('theme', eq('theme')), r = document.documentElement.style;
   r.setProperty('--bg1', t.a); r.setProperty('--bg2', t.b); r.setProperty('--bg3', hexA(t.c, .32));
   ['aurora', 'embers', 'candy', 'forest', 'stars'].forEach(f => document.body.classList.toggle('th-' + f, t.fx === f));
@@ -716,12 +753,14 @@ function toggleRow(label, key, after) {
 function openSettings() {
   const total = starSum();
   const c = modal(`<h2>${tr('settings')}</h2>
-    <div class="set">${tr('language')}<select id="langSel">${I18N_LANGS.map(l => `<option value="${l.id}"${l.id === S.lang ? ' selected' : ''}>${l.name}</option>`).join('')}</select></div>${toggleRow(tr('sound'), 'sound')}${toggleRow(tr('vibration'), 'vib')}${toggleRow(tr('glyphs'), 'glyph')}${toggleRow(tr('fastAnim'), 'fast')}${toggleRow(tr('shuffle'), 'remix')}
-    <div class="btns" style="margin:14px 0 8px"><button class="btn" id="setShop">${tr('designShop')}</button><button class="btn" id="setSave">${tr('saveProg')}</button></div>
+    <div class="set">${tr('language')}<select id="langSel">${I18N_LANGS.map(l => `<option value="${l.id}"${l.id === S.lang ? ' selected' : ''}>${l.name}</option>`).join('')}</select></div>${toggleRow(tr('sound'), 'sound')}${toggleRow(tr('vibration'), 'vib')}${toggleRow(tr('glyphs'), 'glyph')}${toggleRow(tr('fastAnim'), 'fast')}${toggleRow(tr('shuffle'), 'remix')}${toggleRow(tr('labels'), 'badges')}
+    <div class="btns" style="margin:14px 0 8px"><button class="btn" id="setShop">${tr('designShop')}</button><button class="btn" id="setSave">${tr('saveProg')}</button>${IN_APP ? `<button class="btn" id="setUpd">${tr('updCheck')}</button>` : ''}</div>
+    <div class="ver">${tr('version', APP_VERSION)}</div>
     <div class="btns"><button class="btn" id="resetBtn">${tr('reset')}</button><button class="btn pri" id="okBtn">${tr('done')}</button></div>`);
-  c.querySelectorAll('.sw').forEach(s => s.onclick = () => { S[s.dataset.k] = !S[s.dataset.k]; s.classList.toggle('on'); save(); snd.tap(); if (!$('game').hidden && !anims) renderAll(); });
+  c.querySelectorAll('.sw').forEach(s => s.onclick = () => { S[s.dataset.k] = !S[s.dataset.k]; s.classList.toggle('on'); save(); snd.tap(); document.body.classList.toggle('nobadges', S.badges === false); if (!$('game').hidden && !anims) renderAll(); });
   $('setShop').onclick = () => openShop();
   $('setSave').onclick = () => openSaveScreen();
+  if ($('setUpd')) $('setUpd').onclick = () => { closeModal(); checkUpdate(true); };
   $('langSel').onchange = e => { S.lang = e.target.value; save(); applyI18n(); showHome(); openSettings(); };
   $('okBtn').onclick = () => closeModal();
   $('resetBtn').onclick = () => {
@@ -795,6 +834,36 @@ function importCode(text) {
     try { localStorage.setItem('zelevar-v1', JSON.stringify(d)); } catch (e) {}
     toast(tr('loaded')); setTimeout(() => location.reload(), 500);
   };
+}
+
+// ---------- Проверка обновлений: раз в день смотрим последний релиз на GitHub ----------
+const APP_VERSION = '2.2';
+const RELEASES_API = 'https://api.github.com/repos/QwertyQwertovich/zelevar/releases/latest';
+const verNum = v => String(v).replace(/^v/i, '').split('.').map(x => parseInt(x, 10) || 0);
+function isNewer(a, b) { const x = verNum(a), y = verNum(b); for (let q = 0; q < Math.max(x.length, y.length); q++) { const d = (x[q] || 0) - (y[q] || 0); if (d) return d > 0; } return false; }
+const escapeHtml = t => String(t).replace(/[&<>"]/g, ch => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[ch]));
+function openExternal(url) { try { if (IN_APP && AndroidBridge.openUrl) return AndroidBridge.openUrl(url); } catch (e) {} window.open(url, '_blank'); }
+function whenFree(fn, tries) { tries = tries || 0; if ($('modal').hidden && !$('home').hidden) fn(); else if (tries < 200) setTimeout(() => whenFree(fn, tries + 1), 1500); }
+async function checkUpdate(manual) {
+  if (manual) toast(tr('updChecking'));
+  let j;
+  try { const r = await fetch(RELEASES_API, { cache:'no-store' }); if (!r.ok) throw new Error(r.status); j = await r.json(); }
+  catch (e) { if (manual) toast(tr('updFail')); return; }
+  S.updChecked = today(); save();
+  const tag = j.tag_name || '';
+  if (!isNewer(tag, APP_VERSION)) { if (manual) toast(tr('updNone', APP_VERSION)); return; }
+  if (!manual && S.updSkip === tag) return;
+  const apk = (j.assets || []).find(x => /\.apk$/i.test(x.name)), url = apk ? apk.browser_download_url : j.html_url;
+  const note = String(j.body || '').split('\n').map(x => x.trim()).filter(Boolean)[0] || '';
+  const show = () => {
+    modal(`<div class="big">🎉</div><h2>${tr('updTitle', tag.replace(/^v/i, ''))}</h2><p>${tr('updText', APP_VERSION)}${note ? '<br><br><small>' + escapeHtml(note.slice(0, 240)) + '</small>' : ''}</p>
+      <div class="btns" style="flex-direction:column;align-items:stretch"><button class="btn pri" id="uGet">${tr('updGet')}</button>
+      <button class="btn" id="uLater">${tr('updLater')}</button><button class="btn" id="uSkip">${tr('updSkip')}</button></div>`);
+    $('uGet').onclick = () => { closeModal(); openExternal(url); };
+    $('uLater').onclick = () => closeModal();
+    $('uSkip').onclick = () => { S.updSkip = tag; save(); closeModal(); };
+  };
+  if (manual) show(); else whenFree(show);
 }
 
 // ---------- Платные инструменты и заработок звёзд ----------
@@ -909,6 +978,8 @@ function remixLevel(L, rnd) {
   const pool = shuf([...Array(Core.PALETTE_SIZE).keys()]), map = {};
   [...used].forEach((c, i) => map[c] = pool[i]);
   if (L.cnt) { const nc = {}; for (const c in L.cnt) nc[map[c]] = L.cnt[c]; L.cnt = nc; }
+  if (L.heavy >= 0) L.heavy = map[L.heavy];
+  if (L.order) L.order = L.order.map(c => map[c]);
   L.start = L.start.map(a => a.map(u => (u & Core.HID) | map[Core.col(u)]));
   L.flasks.forEach(f => { if (f.lock >= 0) f.lock = map[f.lock]; if (f.filter >= 0) f.filter = map[f.filter]; });
   const perm = shuf(L.flasks.map((f, i) => i));
@@ -1007,9 +1078,15 @@ function layout() {
 }
 
 function renderLegend() {
-  const lg = $('legend'), big = L.cnt ? Object.keys(L.cnt) : [];
-  lg.hidden = !big.length;
-  if (big.length) lg.innerHTML = tr('bigColors', L.cnt[big[0]]) + ' ' + big.map(c => `<i style="background:${PAL[c]}"></i>`).join('');
+  const lg = $('legend'), big = L.cnt ? Object.keys(L.cnt) : [], parts = [];
+  if (big.length) parts.push(`<span class="lg">${tr('bigColors', L.cnt[big[0]])} ${big.map(c => `<i style="background:${PAL[c]}"></i>`).join('')}</span>`);
+  if (L.heavy >= 0) parts.push(`<span class="lg">⚖️ ${tr('heavyLegend')} <i style="background:${PAL[L.heavy]}"></i></span>`);
+  if (L.order) {
+    const done = Core.doneMask(L, st);
+    parts.push(`<span class="lg">📋 ${tr('orderLegend')} ${L.order.map(c => `<i class="${(done >> c) & 1 ? 'ok' : ''}" style="background:${PAL[c]}"></i>`).join('<em>›</em>')}</span>`);
+  }
+  lg.hidden = !parts.length;
+  lg.innerHTML = parts.join('');
 }
 function renderAll() {
   renderLegend();
@@ -1052,14 +1129,21 @@ function updOverlays() {
     const e = els[q]; if (!e) return;
     const ib = e.querySelector('.ice b'); if (ib && F.ice > st.moves) ib.textContent = '❄ ' + (F.ice - st.moves);
     const sb = e.querySelector('.seal b'); if (sb && F.seal > cnt) sb.textContent = F.seal - cnt;
+    const bb = e.querySelector('.topbadge.bomb');
+    if (bb) { const left = F.bomb - st.moves; bb.style.display = left > 0 ? '' : 'none'; bb.textContent = '💥 ' + left; bb.classList.toggle('hot', left <= 3); }
+    const ob = e.querySelector('.topbadge.boilc'); if (ob) ob.textContent = '♨ ' + (F.boil - st.moves % F.boil);
+    const fb = e.querySelector('.frostl b'); if (fb && F.frost > st.moves) fb.textContent = '🧊 ' + (F.frost - st.moves);
   });
+  if (L.order) renderLegend();
 }
 
 function flaskEl(i, done, fx) {
   const F = L.flasks[i], a = view[i], off = F.stone ? 1 : 0, cap = F.cap + off;
   const d = document.createElement('div');
-  const isDone = Core.complete(a, L);
+  const isDone = Core.complete(a, L) && ((done >> Core.col(a[0])) & 1) === 1;
   d.className = 'flask' + (F.type === 'f' ? ' funnel' : '') + (F.type === 't' ? ' tapf' : '') + (F.filter >= 0 ? ' filt' : '') + (isDone ? ' done' : '') +
+    (F.narrow ? ' narrowf' : '') + (F.mirror ? ' mirrorf' : '') + (F.boil ? ' boilf' : '') + (Core.cracked(L, st, i) ? ' broken' : '') +
+    (fx.boiled ? ' boilanim' : '') + (fx.settle ? ' settle' : '') +
     (i === sel ? ' sel' : '') + (hint && hint[0] === i ? ' hintsrc' : '') + (hint && hint[1] === i ? ' hintdst' : '');
   if (F.filter >= 0) d.style.setProperty('--fc', PAL[F.filter]);
   d.innerHTML = '<div class="neck"></div>';
@@ -1082,7 +1166,19 @@ function flaskEl(i, done, fx) {
     const left = F.seal - Core.popcount(done);
     d.insertAdjacentHTML('beforeend', `<div class="sealbox${left > 0 ? '' : ' open'}"><div class="stopper"></div><div class="seal"><b>${Math.max(left, 0)}</b></div></div>`);
   }
+  if (Core.frostOn(L, st, i) && a.length > F.frostAt) {
+    const h = unitBottom(F.frostAt, off) + unitHeight(F.frostAt, off);
+    body.insertAdjacentHTML('beforeend', `<div class="frostl" style="bottom:0;height:${h}px"><b>🧊 ${F.frost - st.moves}</b></div>`);
+  }
+  if (F.crack) {
+    d.insertAdjacentHTML('beforeend', `<div class="cracks" style="top:${UH * 0.5}px"></div>`);
+    if (!Core.cracked(L, st, i)) d.insertAdjacentHTML('beforeend', `<div class="topbadge">💔 ${st.c[i]}</div>`);
+  }
+  if (F.bomb > 0 && st.moves < F.bomb && !isDone) d.insertAdjacentHTML('beforeend', `<div class="topbadge bomb${F.bomb - st.moves <= 3 ? ' hot' : ''}">💥 ${F.bomb - st.moves}</div>`);
+  if (F.boil) d.insertAdjacentHTML('beforeend', `<div class="topbadge boilc">♨ ${F.boil - st.moves % F.boil}</div>`);
   if (F.type === 'f') d.insertAdjacentHTML('beforeend', `<div class="badge">${tr('onlyPour')}</div>`);
+  else if (F.narrow) d.insertAdjacentHTML('beforeend', `<div class="badge">${tr('narrowBadge')}</div>`);
+  else if (F.mirror) d.insertAdjacentHTML('beforeend', `<div class="badge">🪞 ${tr('mirrorBadge')}</div>`);
   else if (F.type === 't') d.insertAdjacentHTML('beforeend', `<div class="badge">${tr('tapBottom')}</div>`);
   else if (F.filter >= 0) d.insertAdjacentHTML('beforeend', `<div class="badge"><i class="dot" style="background:${PAL[F.filter]}"></i>${tr('filter')}</div>`);
   else if (F.cap > L.U) d.insertAdjacentHTML('beforeend', `<div class="badge">${tr('layers', F.cap)}</div>`);
@@ -1096,6 +1192,7 @@ function unitEl(u, k, off, top, done, reveal) {
   e.style.bottom = unitBottom(k, off) + 'px';
   e.style.height = unitHeight(k, off) + 'px';
   if (hid) e.textContent = '?';
+  else if (c === L.heavy) { e.classList.add('heavy'); e.style.background = UNIT_BG[c]; e.style.setProperty('--hl', UNIT_HL[c]); e.style.setProperty('--c', PAL[c]); e.style.setProperty('--cl', UNIT_CL[c]); e.style.setProperty('--cd', UNIT_CD[c]); e.innerHTML = '<i class="hv">⚖</i>'; }
   else { e.style.background = UNIT_BG[c]; e.style.setProperty('--hl', UNIT_HL[c]); e.style.setProperty('--c', PAL[c]); e.style.setProperty('--cl', UNIT_CL[c]); e.style.setProperty('--cd', UNIT_CD[c]); if (S.glyph) e.innerHTML = '<div class="g">' + GLYPH[c] + '</div>'; }
   return e;
 }
@@ -1108,8 +1205,10 @@ function srcProblem(i) {
   if (Core.locked(L, i, done)) return tr('locked');
   if (Core.sealed(L, i, done)) { const k = F.seal - Core.popcount(done); return tr('sealLeft', k); }
   if (!a.length) return '';
+  if (Core.cracked(L, st, i)) return tr('crackedMsg');
   if (F.type === 'f') return tr('funnelNo');
-  if (Core.complete(a, L)) return '';
+  if (Core.flaskDone(L, a, done)) return '';
+  if (Core.frostOn(L, st, i) && Core.outRun(L, a, i, st) === 0) return tr('frostLeft', F.frost - st.moves);
   return null;
 }
 function plural(n, a, b, c) { n = Math.abs(n) % 100; const m = n % 10; return n > 10 && n < 20 ? c : m === 1 ? a : m >= 2 && m <= 4 ? b : c; }
@@ -1131,7 +1230,7 @@ function tap(i) {
   if (why === null) { const s = sel; setSel(-1); commitPour(s, i); return; }
   if ((why === 'color' || why === 'full' || why === 'filter') && srcProblem(i) === null) { setSel(i); snd.tap(); return; }
   shakeEl(i); snd.err(); vib([20, 40, 20]);
-  if (why === 'ice' || why === 'lock' || why === 'seal') toast(srcProblem(i) || srcProblem(sel) || tr('cantTouch'));
+  if (why === 'ice' || why === 'lock' || why === 'seal' || why === 'crack' || why === 'frost') toast(srcProblem(i) || srcProblem(sel) || tr('cantTouch'));
   else if (why === 'full') toast(tr('full'));
   else if (why === 'filter') toast(tr('filterOnly'));
   else if (why === 'color') toast(tr('sameColor'));
@@ -1147,14 +1246,15 @@ function commitPour(i, j) {
   const fx = {
     unlock: L.flasks.map((F, q) => F.lock >= 0 && !((before >> F.lock) & 1) && ((after >> F.lock) & 1) ? q : -1).filter(q => q >= 0),
     unseal: L.flasks.map((F, q) => F.seal && cntB < F.seal && cntA >= F.seal ? q : -1).filter(q => q >= 0),
-    thaw: L.flasks.map((F, q) => F.ice && F.ice === st.moves ? q : -1).filter(q => q >= 0),
+    thaw: L.flasks.map((F, q) => (F.ice && F.ice === st.moves) || (F.frost && F.frost === st.moves) || (F.bomb > 0 && F.bomb === st.moves) ? q : -1).filter(q => q >= 0),
   };
   updHeader(); updOverlays();
   if (Core.won(L, st)) { endState = 'win'; setSel(-1); }
+  else if (Core.exploded(L, st)) { endState = 'boom'; setSel(-1); }
   else if (L.limit && st.moves >= L.limit) endState = 'moves';
-  const tk = token;
+  const tk = token, rotQ = [...new Set(mv.rot.map(r => r[0]))].filter(q => q !== i && q !== j);
   anims++;
-  const p = Promise.all([ready[i], ready[j]])
+  const p = Promise.all([ready[i], ready[j], ...rotQ.map(q => ready[q])])
     .then(() => tk === token ? animatePour(i, j, mv, color, tk) : null)
     .catch(e => console.error(e))
     .then(() => {
@@ -1165,11 +1265,12 @@ function commitPour(i, j) {
       if (fx.thaw.length) snd.thaw();
       if (!anims) idle();
     });
-  ready[i] = ready[j] = p;
+  ready[i] = ready[j] = p; rotQ.forEach(q => ready[q] = p);
 }
 
 function idle() {
   if (endState === 'win') win();
+  else if (endState === 'boom') boomOut();
   else if (endState === 'moves') movesOut();
   else checkStuck();
 }
@@ -1251,8 +1352,8 @@ async function animatePour(i, j, mv, color, tk) {
     sUnits.slice(-n).reverse().forEach((u, q) => { u.style.transition = `height ${per}ms linear ${q * per}ms`; u.classList.remove('top'); requestAnimationFrame(() => u.style.height = '0px'); });
   }
   const gl = dBodyEl.querySelector('.gloss'), oldTop = dBodyEl.querySelector('.u.top');
-  if (oldTop) oldTop.classList.remove('top');
-  for (let q = 0; q < n; q++) {
+  if (oldTop && !mv.sink && !mv.flip) oldTop.classList.remove('top');
+  for (let q = 0; q < (mv.sink || mv.flip ? 0 : n); q++) {
     const u = unitEl(color, b.length + q, dOff, q === n - 1, false, false), full = u.style.height;
     u.style.height = '0px'; u.style.transition = `height ${per}ms linear ${q * per}ms`;
     dBodyEl.insertBefore(u, gl);
@@ -1270,11 +1371,17 @@ async function animatePour(i, j, mv, color, tk) {
 
   // применяем ход к нарисованному состоянию
   const moved = tapF ? view[i].splice(0, n) : view[i].splice(-n);
-  view[j].push(...moved);
+  if (mv.sink) view[j].unshift(...moved); else view[j].push(...moved);
   if (mv.rev) view[i][view[i].length - 1] -= Core.HID;
+  if (mv.flip) { const b2 = view[j]; b2.reverse(); if (mv.frev) b2[b2.length - 1] -= Core.HID; }
+  for (const [q, r] of mv.rot) { const x = view[q]; x.unshift(x.pop()); if (r) x[x.length - 1] -= Core.HID; }
   inFlight.delete(i); inFlight.delete(j);
-  const doneJ = Core.complete(view[j], L);
-  renderFlask(i, { rev: mv.rev }); renderFlask(j, { done: doneJ });
+  const doneMaskNow = Core.doneMask(L, st);
+  const doneJ = Core.complete(view[j], L) && ((doneMaskNow >> Core.col(view[j][0])) & 1) === 1;
+  renderFlask(i, { rev: mv.rev, boiled: mv.rot.some(r => r[0] === i) });
+  renderFlask(j, { done: doneJ, settle: mv.sink || mv.flip, boiled: mv.rot.some(r => r[0] === j) });
+  mv.rot.forEach(([q]) => { if (q !== i && q !== j) renderFlask(q, { boiled: true }); });
+  if (mv.rot.length) snd.boil();
   if (mv.rev) snd.reveal();
   if (doneJ) { snd.done(); vib(30); burst(els[j], PAL[Core.col(view[j][0])]); }
 }
@@ -1386,6 +1493,14 @@ async function win() {
   if ($('wNext')) $('wNext').onclick = () => { closeModal(false); startLevel(n + 1); };
 }
 
+function boomOut() {
+  snd.boom(); vib([80, 40, 120]);
+  const F = L.flasks.find(f => f.bomb > 0 && f.bomb === st.moves) || L.flasks.find(f => f.bomb > 0);
+  modal(`<div class="big">💥</div><h2>${tr('boomTitle')}</h2><p>${tr('boomText', F ? F.bomb : '')}</p>
+    <div class="btns"><button class="btn" id="bUndo">↶ ${tr('undoMove')}</button><button class="btn pri" id="bAgain">${tr('restart')}</button></div>`, 'locked');
+  $('bUndo').onclick = () => { closeModal(false); endState = null; doUndo(true); };
+  $('bAgain').onclick = () => { closeModal(false); restart(); };
+}
 function movesOut() {
   snd.lose(); vib([60, 40, 60]);
   modal(`<div class="big">📜</div><h2>${tr('movesOver')}</h2><p>${tr('movesOverText', L.limit)}</p>
@@ -1516,6 +1631,7 @@ applyI18n();
 applyTheme();
 showHome();
 if (giftState().ready) setTimeout(() => { if (!$('home').hidden && $('modal').hidden) openGift(); }, 600);
+if (IN_APP && S.updChecked !== today()) setTimeout(() => checkUpdate(false), 2500);
 
 </script>
 </body>
