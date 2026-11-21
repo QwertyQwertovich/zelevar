@@ -360,21 +360,22 @@ body.nobadges .badge { display:none; }
 @keyframes glowp { from { opacity:.35; } to { opacity:.9; } }
 #bgAnim { position:absolute; inset:0; overflow:hidden; }
 .pvth > div { pointer-events:none; }
-.an-opal { position:absolute; inset:-60%; background:conic-gradient(from 0deg, rgba(255,120,200,.26), rgba(120,200,255,.24), rgba(150,255,200,.22), rgba(255,220,120,.22), rgba(200,140,255,.24), rgba(255,120,200,.26)); animation:spin 36s linear infinite; }
+.an-opal { position:absolute; inset:-30%; background:radial-gradient(circle at 25% 30%, rgba(255,120,200,.28), transparent 38%), radial-gradient(circle at 75% 35%, rgba(120,200,255,.26), transparent 40%), radial-gradient(circle at 40% 75%, rgba(150,255,200,.22), transparent 38%), radial-gradient(circle at 80% 80%, rgba(255,220,120,.2), transparent 36%); animation:opal 26s ease-in-out infinite alternate; }
+@keyframes opal { 0% { transform:translate(-6%,-4%) rotate(0deg) scale(1); filter:hue-rotate(0deg); } 100% { transform:translate(6%,5%) rotate(25deg) scale(1.15); filter:hue-rotate(70deg); } }
 @keyframes spin { to { transform:rotate(360deg); } }
 .an-blob { position:absolute; width:70vmax; height:70vmax; border-radius:50%; background:radial-gradient(circle, var(--blob) 0, transparent 62%); animation:blob 20s ease-in-out infinite alternate; }
 @keyframes blob { 0% { transform:translate(-25%,5%) scale(1); } 50% { transform:translate(25%,-25%) scale(1.25); } 100% { transform:translate(-5%,35%) scale(.85); } }
 .an-neb { position:absolute; inset:-40%; background:radial-gradient(ellipse at 30% 40%, rgba(120,140,255,.32), transparent 45%), radial-gradient(ellipse at 70% 60%, rgba(255,110,200,.26), transparent 40%), radial-gradient(ellipse at 50% 20%, rgba(90,230,255,.2), transparent 35%); animation:spin 90s linear infinite; }
 .an-neb.n2 { animation-direction:reverse; animation-duration:140s; opacity:.7; }
-.an-prism { position:absolute; inset:-60%; background:repeating-linear-gradient(115deg, rgba(255,40,140,.11) 0 70px, rgba(255,200,40,.11) 70px 140px, rgba(40,230,255,.11) 140px 210px, rgba(150,90,255,.11) 210px 280px); animation:prism 16s linear infinite; }
+.an-prism { position:absolute; inset:-60%; background:repeating-linear-gradient(115deg, rgba(255,40,140,.13) 0, rgba(255,200,40,.11) 70px, rgba(40,230,255,.13) 140px, rgba(150,90,255,.12) 210px, rgba(255,40,140,.13) 280px); animation:prism 16s linear infinite; }
 @keyframes prism { to { transform:translateX(309px); } }
-.an-tide { position:absolute; left:-50%; right:-50%; bottom:0; height:45%; }
-.an-tide i { position:absolute; left:0; right:0; bottom:0; height:100%; background:radial-gradient(ellipse 60px 26px at 60px 0, transparent 98%, var(--wave) 100%) 0 0 / 120px 100% repeat-x; animation:tide 9s linear infinite; opacity:.55; }
+.an-tide { position:absolute; left:-50%; right:-50%; bottom:0; height:38%; -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 55%); mask-image:linear-gradient(to bottom, transparent 0, #000 55%); }
+.an-tide i { position:absolute; left:0; right:0; bottom:0; height:100%; background:radial-gradient(ellipse 60px 30px at 60px 0, transparent 92%, var(--wave) 100%) 0 0 / 120px 100% repeat-x; animation:tide 9s linear infinite; opacity:.5; }
 .an-tide i:nth-child(2) { bottom:-14%; animation-duration:13s; animation-direction:reverse; opacity:.4; }
 .an-tide i:nth-child(3) { bottom:-28%; animation-duration:17s; opacity:.3; }
 @keyframes tide { to { transform:translateX(120px); } }
-.an-mist { position:absolute; left:-60%; right:-60%; top:15%; height:70%; background:radial-gradient(ellipse 30% 22% at 25% 50%, rgba(220,210,255,.18), transparent 70%), radial-gradient(ellipse 26% 18% at 70% 30%, rgba(200,230,255,.15), transparent 70%), radial-gradient(ellipse 34% 20% at 55% 80%, rgba(230,200,255,.14), transparent 70%); animation:mist 28s ease-in-out infinite alternate; }
-.an-mist.m2 { top:35%; animation-duration:40s; animation-direction:alternate-reverse; }
+.an-mist { position:absolute; left:-80%; right:-80%; top:0; height:100%; background:radial-gradient(ellipse 30% 22% at 25% 50%, rgba(220,210,255,.18), transparent 70%), radial-gradient(ellipse 26% 18% at 70% 30%, rgba(200,230,255,.15), transparent 70%), radial-gradient(ellipse 34% 20% at 55% 80%, rgba(230,200,255,.14), transparent 70%); animation:mist 28s ease-in-out infinite alternate; }
+.an-mist.m2 { top:10%; animation-duration:40s; animation-direction:alternate-reverse; }
 @keyframes mist { to { transform:translateX(25%); } }
 /* главная: счётчик механик, глава, кнопка GitHub */
 #mechChip { cursor:pointer; }
@@ -599,32 +600,35 @@ function sceneSVG(type, c) {
   const K = 'rgba(0,0,0,.45)', A = hexA(c, .55), A2 = hexA(c, .25);
   const bottle = (x, y, h) => `<path d="M${x - 4} ${y - h} h8 v${h * .3} q${h * .3} ${h * .12} ${h * .3} ${h * .4} v${h * .3} h-${h * .6 + 8} v-${h * .3} q0 -${h * .28} ${h * .3} -${h * .4}z"/>`;
   const S = {
-    shop: `<g fill="${K}"><rect x="0" y="690" width="400" height="110"/><rect x="0" y="560" width="110" height="8"/><rect x="290" y="560" width="110" height="8"/>
+    shop: `<rect x="0" y="620" width="400" height="180" fill="url(#sgK)"/><g fill="${K}"><rect x="0" y="560" width="110" height="8"/><rect x="290" y="560" width="110" height="8"/>
       ${bottle(25, 560, 40)}${bottle(60, 560, 28)}${bottle(90, 560, 48)}${bottle(310, 560, 34)}${bottle(345, 560, 50)}${bottle(380, 560, 26)}</g>
       <g fill="${A2}">${[40, 120, 280, 360].map((x, q) => `<g class="sway" style="animation-delay:-${q}s"><rect x="${x - 1}" y="0" width="2" height="60"/><ellipse cx="${x}" cy="70" rx="12" ry="20"/><ellipse cx="${x - 10}" cy="58" rx="6" ry="12"/><ellipse cx="${x + 10}" cy="60" rx="6" ry="12"/></g>`).join('')}</g>`,
     cellar: `<path fill="${K}" d="M0 800 V640 Q50 560 100 640 Q150 560 200 640 Q250 560 300 640 Q350 560 400 640 V800z"/>
       ${[30, 370].map(x => `<rect x="${x - 4}" y="690" width="8" height="40" fill="${K}"/><ellipse class="glw" cx="${x}" cy="680" rx="6" ry="11" fill="${A}"/><circle class="glw" cx="${x}" cy="680" r="30" fill="${A2}"/>`).join('')}`,
-    mine: `<g fill="${K}"><rect x="10" y="300" width="18" height="500"/><rect x="372" y="300" width="18" height="500"/><rect x="0" y="290" width="400" height="20"/><rect x="0" y="740" width="400" height="60"/></g>
+    mine: `<g fill="${K}"><rect x="10" y="380" width="16" height="420"/><rect x="374" y="380" width="16" height="420"/><path d="M0 372 h62 l-36 22 h-26z"/><path d="M400 372 h-62 l36 22 h26z"/><ellipse cx="200" cy="815" rx="260" ry="70"/></g>
       ${[[50, 740, 30], [80, 740, 50], [330, 740, 44], [360, 740, 26], [200, 740, 22]].map(([x, y, h], q) => `<path class="glw" style="animation-delay:-${q * .5}s" d="M${x - h * .3} ${y} L${x} ${y - h} L${x + h * .3} ${y}z" fill="${A}"/>`).join('')}`,
     ice: `<g fill="rgba(220,240,255,.18)">${[...Array(14)].map((_, q) => { const x = q * 30 + 5, h = 30 + (q * 37 % 60); return `<path d="M${x} 0 L${x + 12} 0 L${x + 6} ${h}z"/>`; }).join('')}</g>
       <g fill="rgba(230,245,255,.16)"><ellipse cx="60" cy="800" rx="150" ry="70"/><ellipse cx="330" cy="810" rx="170" ry="80"/></g>`,
-    bazaar: `<g fill="${K}"><path d="M-10 800 L60 680 L130 800z"/><path d="M270 800 L340 670 L410 800z"/><rect x="0" y="780" width="400" height="20"/></g>
+    bazaar: `<g fill="${K}"><path d="M-10 800 L60 680 L130 800z"/><path d="M270 800 L340 670 L410 800z"/></g><rect x="0" y="700" width="400" height="100" fill="url(#sgK)"/>
       <g stroke="${A2}" stroke-width="2">${[60, 340].map(x => `<line x1="${x}" y1="0" x2="${x}" y2="90"/>`).join('')}</g>${[60, 340].map((x, q) => `<circle class="glw" style="animation-delay:-${q}s" cx="${x}" cy="102" r="12" fill="${A}"/>`).join('')}`,
-    sea: `<g fill="rgba(255,255,255,.05)"><path d="M60 0 L120 0 L60 500z"/><path d="M220 0 L270 0 L300 450z"/></g>
+    sea: `<g fill="url(#sgR)"><path d="M60 0 L120 0 L60 500z"/><path d="M220 0 L270 0 L300 450z"/></g>
       <g fill="${K}"><ellipse cx="50" cy="790" rx="110" ry="40"/><ellipse cx="350" cy="800" rx="120" ry="45"/></g>
       <g fill="${A2}">${[30, 60, 340, 375].map((x, q) => `<path class="sway" style="animation-delay:-${q * .7}s" d="M${x} 780 q-12 -40 0 -80 q12 -40 0 -90 q8 40 6 90 q-2 40 4 80z"/>`).join('')}</g>`,
     forge: `<path fill="${K}" d="M0 800 V700 L40 660 L70 690 L110 640 L140 700 L260 700 L290 650 L320 680 L360 630 L400 680 V800z"/>
-      <rect class="glw" x="0" y="760" width="400" height="40" fill="${A}"/><rect x="170" y="690" width="60" height="12" fill="${K}"/><rect x="185" y="702" width="30" height="20" fill="${K}"/>`,
+      <rect class="glw" x="0" y="700" width="400" height="100" fill="url(#sgA)"/><rect x="170" y="690" width="60" height="12" fill="${K}"/><rect x="185" y="702" width="30" height="20" fill="${K}"/>`,
     sky: `<path fill="${K}" d="M250 800 V720 Q320 640 390 720 V800z"/><rect x="300" y="650" width="10" height="70" fill="${K}" transform="rotate(-30 305 685)"/>
       <circle cx="80" cy="110" r="34" fill="${A2}"/><circle cx="94" cy="100" r="30" fill="#000" opacity=".55"/>`,
     forest: `<g fill="${K}">${[[20, 800, 220], [70, 800, 160], [330, 800, 200], [380, 800, 260]].map(([x, y, h]) => `<path d="M${x} ${y - h} L${x + 40} ${y} L${x - 40} ${y}z"/>`).join('')}</g>
       ${[[120, 790], [150, 794], [270, 792]].map(([x, y], q) => `<g class="glw" style="animation-delay:-${q * .8}s" fill="${A}"><ellipse cx="${x}" cy="${y - 10}" rx="12" ry="7"/><rect x="${x - 2}" y="${y - 6}" width="4" height="10"/></g>`).join('')}`,
-    castle: `<g fill="${K}"><rect x="0" y="640" width="60" height="160"/><rect x="340" y="620" width="60" height="180"/><rect x="40" y="700" width="320" height="100"/>
+    castle: `<g fill="${K}"><rect x="0" y="640" width="60" height="160"/><rect x="340" y="620" width="60" height="180"/><path d="M40 800 V760 Q120 740 200 755 Q280 740 360 760 V800z"/>
       <path d="M-5 640 L30 580 L65 640z"/><path d="M335 620 L370 555 L405 620z"/></g>
       ${[[25, 680], [365, 660], [120, 740], [280, 740]].map(([x, y], q) => `<rect class="glw" style="animation-delay:-${q * .6}s" x="${x - 5}" y="${y}" width="10" height="16" rx="5" fill="${A}"/>`).join('')}
       <circle cx="320" cy="110" r="28" fill="${A2}"/>`,
   };
-  return `<svg viewBox="0 0 400 800" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">${S[type] || ''}</svg>`;
+  const defs = `<defs><linearGradient id="sgK" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".5"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient>
+    <linearGradient id="sgA" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="${c}" stop-opacity=".6"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></linearGradient>
+    <linearGradient id="sgR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".09"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>`;
+  return `<svg viewBox="0 0 400 800" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">${defs}${S[type] || ''}</svg>`;
 }
 
 const PALETTES = [
@@ -1019,7 +1023,7 @@ function importCode(text) {
 }
 
 // ---------- Проверка обновлений: раз в день смотрим последний релиз на GitHub ----------
-const APP_VERSION = '2.3.1';
+const APP_VERSION = '2.3.2';
 const RELEASES_API = 'https://api.github.com/repos/QwertyQwertovich/zelevar/releases/latest';
 const verNum = v => String(v).replace(/^v/i, '').split('.').map(x => parseInt(x, 10) || 0);
 function isNewer(a, b) { const x = verNum(a), y = verNum(b); for (let q = 0; q < Math.max(x.length, y.length); q++) { const d = (x[q] || 0) - (y[q] || 0); if (d) return d > 0; } return false; }
