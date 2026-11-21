@@ -1,6 +1,6 @@
 // Офлайн-режим для веб-версии: файлы игры хранятся в кэше браузера.
 // Стратегия «из кэша сразу, в фоне — обновить»: игра запускается без сети, а новая версия подтягивается при следующем запуске.
-const CACHE = 'zelevar-v3';
+const CACHE = 'zelevar-v4';
 const FILES = ['./', 'index.html', 'core.js', 'i18n.js', 'levels.js', 'manifest.json', 'icon.png', 'icon-512.png'];
 
 self.addEventListener('install', e => {

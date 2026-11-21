@@ -325,7 +325,7 @@ function build(spec, r) {
     if (longestStreak(ch) >= cap - 1 && k > 2) return null;
     filled.push({ f: { cap, type: 'n', ice: 0, lock: -1 }, u: ch });
   }
-  const empties = [{ f: { cap: U, type: 'n', ice: 0, lock: -1 }, u: [] }, { f: { cap: U, type: 'n', ice: 0, lock: -1 }, u: [] }];
+  const empties = [...Array(spec.empties || 2)].map(() => ({ f: { cap: U, type: 'n', ice: 0, lock: -1 }, u: [] }));
   const free = shuffle(r, filled.slice());
   const soft = intro || role === 'easy' || role === 'normal' || role === 'recipe';
   const replaceEmpty = (obj, last) => {
@@ -420,6 +420,19 @@ function setBomb(L, path) {
   return null;
 }
 
+// Свой уровень (генератор после 1000-го): цвета, порции, пустые колбы, сложность, режим, механики
+function makeCustom(o) {
+  const seed = o.seed || (Math.floor(Math.random() * 1e9) + 1);
+  const spec = { n: 100000 + (seed % 100000), role: o.mode || ({ easy:'easy', hard:'hard' }[o.diff] || 'normal'), k: o.colors, U: o.portions || 4,
+    mechs: (o.mechs || []).filter(m => m !== 'deep' && !MODES.includes(m)), intro: null, seed, empties: o.empties || 2, custom: true };
+  if (spec.mechs.includes('tall')) spec.k = Math.min(spec.k, 9);
+  for (;;) {
+    const L = tryMake(spec);
+    if (L) { L.n = spec.n; return L; }
+    if (spec.mechs.length) spec.mechs.pop(); else if (spec.k > 3) spec.k--; else if (spec.empties < 3) spec.empties++; else return null;
+  }
+}
+
 function makeLevel(n) {
   const spec = specFor(n);
   for (let relax = 0; ; relax++) {
@@ -449,7 +462,7 @@ function tryMake(spec) {
   L.par = pick.len;
   L.difficulty = pick.nodes;
   if (L.role === 'recipe' || L.role === 'blitz') {
-    const sh = solveShort(L, initState(L), 900000);
+    const sh = solveShort(L, initState(L), spec.custom ? 150000 : 900000);
     L.par = sh.path.length;
     if (L.role === 'recipe') L.limit = Math.ceil(L.par * 1.25) + 1;
     if (L.role === 'blitz') L.time = Math.round(Math.max(40, L.par * 3 + 15));
@@ -457,7 +470,7 @@ function tryMake(spec) {
   return L;
 }
 
-const api = { flaskDone, cracked, exploded, frostOn, need, solveShort, popcount, sealed, outRun, outColor, isTap, MODES, HID, col, MECHS, PALETTE_SIZE, rng, initState, cloneState, topRun, complete, doneMask, frozen, locked,
+const api = { makeCustom, flaskDone, cracked, exploded, frostOn, need, solveShort, popcount, sealed, outRun, outColor, isTap, MODES, HID, col, MECHS, PALETTE_SIZE, rng, initState, cloneState, topRun, complete, doneMask, frozen, locked,
   usable, whyNot, canPour, pour, unpour, won, solve, specFor, makeLevel, roleOf };
 if (typeof module !== 'undefined' && module.exports) module.exports = api;
 else root.Core = api;

@@ -335,6 +335,62 @@ button { font:inherit; color:inherit; border:none; cursor:pointer; }
 
 body.nobadges .badge { display:none; }
 
+/* Буль — персонаж игры */
+.mascot { display:inline-block; animation:mbob 2.8s ease-in-out infinite; overflow:visible; }
+.mascot .meyes { animation:mblink 4.5s infinite; transform-origin:50px 61px; transform-box:view-box; }
+.mascot .mwave { animation:mwave 2.4s linear infinite; }
+.mascot.jump { animation:mjump .7s ease 3; }
+@keyframes mbob { 50% { transform:translateY(-4px) rotate(-2deg); } }
+@keyframes mblink { 0%, 93%, 100% { transform:scaleY(1); } 96% { transform:scaleY(.1); } }
+@keyframes mwave { to { transform:translateX(-20px); } }
+@keyframes mjump { 40% { transform:translateY(-16px) scale(1.05,.95); } 70% { transform:translateY(0) scale(.97,1.04); } }
+.mrow { display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:4px; }
+.mrow .big { font-size:46px; }
+.hero { display:flex; align-items:flex-end; justify-content:center; gap:6px; height:92px; margin-top:6px; position:relative; }
+.hero .hb { animation:mbob 3.4s ease-in-out infinite; }
+.hero .hb.r { animation-delay:-1.7s; }
+.hero .sp { position:absolute; color:#ffe08a; font-size:14px; animation:twk 1.8s ease-in-out infinite alternate; text-shadow:0 0 8px #ffe08a; }
+.logo h1 { margin-top:2px; }
+/* оформление глав и анимированные фоны */
+#scene { position:fixed; inset:0; pointer-events:none; }
+#scene svg { width:100%; height:100%; display:block; }
+#scene .sway { transform-box:fill-box; transform-origin:50% 100%; animation:sway 4s ease-in-out infinite alternate; }
+#scene .glw { animation:glowp 2.6s ease-in-out infinite alternate; }
+@keyframes sway { from { transform:rotate(-6deg); } to { transform:rotate(6deg); } }
+@keyframes glowp { from { opacity:.35; } to { opacity:.9; } }
+#bgAnim { position:absolute; inset:0; overflow:hidden; }
+.pvth > div { pointer-events:none; }
+.an-opal { position:absolute; inset:-60%; background:conic-gradient(from 0deg, rgba(255,120,200,.26), rgba(120,200,255,.24), rgba(150,255,200,.22), rgba(255,220,120,.22), rgba(200,140,255,.24), rgba(255,120,200,.26)); animation:spin 36s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.an-blob { position:absolute; width:70vmax; height:70vmax; border-radius:50%; background:radial-gradient(circle, var(--blob) 0, transparent 62%); animation:blob 20s ease-in-out infinite alternate; }
+@keyframes blob { 0% { transform:translate(-25%,5%) scale(1); } 50% { transform:translate(25%,-25%) scale(1.25); } 100% { transform:translate(-5%,35%) scale(.85); } }
+.an-neb { position:absolute; inset:-40%; background:radial-gradient(ellipse at 30% 40%, rgba(120,140,255,.32), transparent 45%), radial-gradient(ellipse at 70% 60%, rgba(255,110,200,.26), transparent 40%), radial-gradient(ellipse at 50% 20%, rgba(90,230,255,.2), transparent 35%); animation:spin 90s linear infinite; }
+.an-neb.n2 { animation-direction:reverse; animation-duration:140s; opacity:.7; }
+.an-prism { position:absolute; inset:-60%; background:repeating-linear-gradient(115deg, rgba(255,40,140,.11) 0 70px, rgba(255,200,40,.11) 70px 140px, rgba(40,230,255,.11) 140px 210px, rgba(150,90,255,.11) 210px 280px); animation:prism 16s linear infinite; }
+@keyframes prism { to { transform:translateX(309px); } }
+.an-tide { position:absolute; left:-50%; right:-50%; bottom:0; height:45%; }
+.an-tide i { position:absolute; left:0; right:0; bottom:0; height:100%; background:radial-gradient(ellipse 60px 26px at 60px 0, transparent 98%, var(--wave) 100%) 0 0 / 120px 100% repeat-x; animation:tide 9s linear infinite; opacity:.55; }
+.an-tide i:nth-child(2) { bottom:-14%; animation-duration:13s; animation-direction:reverse; opacity:.4; }
+.an-tide i:nth-child(3) { bottom:-28%; animation-duration:17s; opacity:.3; }
+@keyframes tide { to { transform:translateX(120px); } }
+.an-mist { position:absolute; left:-60%; right:-60%; top:15%; height:70%; background:radial-gradient(ellipse 30% 22% at 25% 50%, rgba(220,210,255,.18), transparent 70%), radial-gradient(ellipse 26% 18% at 70% 30%, rgba(200,230,255,.15), transparent 70%), radial-gradient(ellipse 34% 20% at 55% 80%, rgba(230,200,255,.14), transparent 70%); animation:mist 28s ease-in-out infinite alternate; }
+.an-mist.m2 { top:35%; animation-duration:40s; animation-direction:alternate-reverse; }
+@keyframes mist { to { transform:translateX(25%); } }
+/* главная: счётчик механик, глава, кнопка GitHub */
+#mechChip { cursor:pointer; }
+.chapname { text-align:center; font-size:13px; color:var(--muted); margin:-2px 0 6px; }
+#ghBtn { font:700 13px/1 ui-monospace, Consolas, monospace; }
+.extras button.locked { opacity:.5; }
+/* генератор */
+.gset { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:7px 2px; border-bottom:1px solid rgba(255,255,255,.08); font-size:14px; text-align:left; }
+.gset input[type=range] { width:48%; accent-color:var(--acc); }
+.seg { display:flex; gap:4px; flex-wrap:wrap; justify-content:flex-end; }
+.seg button { background:rgba(255,255,255,.08); border:1px solid var(--panel-b); border-radius:10px; padding:5px 9px; font-size:13px; color:var(--muted); }
+.seg button.on { background:var(--acc); color:#fff; border-color:transparent; }
+.gmech { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; justify-content:center; }
+.gmech button { background:rgba(255,255,255,.07); border:1px solid var(--panel-b); border-radius:12px; padding:5px 9px; font-size:12px; color:var(--muted); }
+.gmech button.on { background:rgba(63,214,196,.22); border-color:var(--acc2); color:#fff; }
+
 /* эффекты */
 #fx { position:fixed; inset:0; pointer-events:none; z-index:50; }
 .stream { position:fixed; border-radius:3px; transform-origin:50% 0; }
@@ -375,21 +431,24 @@ body.nobadges .badge { display:none; }
 </style>
 </head>
 <body>
-<div id="bg"></div>
+<div id="bg"><div id="bgAnim"></div></div>
+<div id="scene"></div>
 
 <section id="home" class="screen">
   <div class="homebar">
+    <button class="iconbtn" id="ghBtn" data-ta="github" aria-label="GitHub">&lt;/&gt;</button>
     <button class="iconbtn" id="infoBtn" data-ta="help" aria-label="Help">📖</button>
     <button class="iconbtn" id="setBtn" data-ta="settings" aria-label="Settings">⚙️</button>
   </div>
   <div class="logo">
-    <div class="flaskicons">⚗️🧪⚗️</div>
+    <div class="hero" id="hero"></div>
     <h1 data-t="appName"></h1>
     <p data-t="subtitle"></p>
   </div>
   <div class="stats">
     <div class="chip">⭐ <b id="starTotal">0</b></div>
     <div class="chip">🏆 <b id="doneTotal">0</b> / <span id="lvTotal">0</span></div>
+    <div class="chip" id="mechChip">🧩 <b id="mechTotal">0</b> / <span id="mechAll">0</span></div>
   </div>
   <button id="playBtn"><span data-t="play"></span><small id="playSub"></small></button>
   <div class="extras">
@@ -397,9 +456,11 @@ body.nobadges .badge { display:none; }
     <button id="giftBtn"><span>🎁</span><b data-t="gift"></b></button>
     <button id="dailyBtn"><span>🧪</span><b data-t="daily"></b></button>
     <button id="achBtn"><span>🏆</span><b data-t="awards"></b></button>
+    <button id="genBtn"><span>🧬</span><b data-t="gen"></b></button>
   </div>
   <div class="weblinks" id="webLinks" hidden><a id="installBtn" href="#" data-t="install" hidden></a><a id="apkLink" data-t="dlAndroid"></a><a id="relLink" data-t="releases" target="_blank" rel="noopener"></a></div>
   <div class="tabs" id="tabs"></div>
+  <div class="chapname" id="chapName"></div>
   <div id="grid"></div>
 </section>
 
@@ -467,7 +528,105 @@ const THEMES = [
   { id:'mint',    name:'Мятный рассвет',        price:140, a:'#0f3b3a', b:'#041312', c:'#7fffd4' },
   { id:'polar',   name:'Полярная ночь',         price:280, a:'#0a1838', b:'#00030a', c:'#9ad0ff', fx:'aurora' },
   { id:'royal',   name:'Королевский зал',       price:350, a:'#3a1050', b:'#0c0216', c:'#ffcf4a' },
+  { id:'opal',     name:'Жидкий опал',      price:180, a:'#1f1a3a', b:'#07060f', c:'#c9a6ff', fx:'opal' },
+  { id:'lavalamp', name:'Лавовая лампа',    price:220, a:'#3a0f2a', b:'#0d0309', c:'#ff5fa2', fx:'lavalamp' },
+  { id:'mist',     name:'Колдовской туман', price:240, a:'#22183a', b:'#08060f', c:'#b6a6ff', fx:'mist' },
+  { id:'tide',     name:'Морской прилив',   price:260, a:'#06304a', b:'#010b14', c:'#3fd6c4', fx:'tide' },
+  { id:'nebula',   name:'Туманность',       price:300, a:'#140f3a', b:'#02010a', c:'#6a8cff', fx:'nebula' },
+  { id:'prism',    name:'Призма',           price:380, a:'#1a1a2a', b:'#06060c', c:'#7fe3ff', fx:'prism' },
 ];
+// Главы: каждые 100 уровней — своё место со своим фоном и сценой
+const CHAPTERS = [
+  { icon:'🌿', scene:'shop',   fx:'forest',   a:'#1d2e1a', b:'#060d05', c:'#9be34a' },
+  { icon:'🕯️', scene:'cellar', fx:'embers',   a:'#2e1c12', b:'#0b0604', c:'#ffb05a' },
+  { icon:'⛏️', scene:'mine',   fx:'opal',     a:'#1a1c33', b:'#05060e', c:'#7fe3ff' },
+  { icon:'❄️', scene:'ice',    fx:'aurora',   a:'#0f2a40', b:'#020812', c:'#bfe8ff' },
+  { icon:'🏜️', scene:'bazaar', fx:'prism',    a:'#3a2412', b:'#100804', c:'#ffcf4a' },
+  { icon:'🐚', scene:'sea',    fx:'tide',     a:'#04304a', b:'#010a14', c:'#3fd6c4' },
+  { icon:'🌋', scene:'forge',  fx:'lavalamp', a:'#3a0c06', b:'#0d0201', c:'#ff5a1f' },
+  { icon:'🔭', scene:'sky',    fx:'nebula',   a:'#151040', b:'#02010a', c:'#8f9bff' },
+  { icon:'🍄', scene:'forest', fx:'mist',     a:'#1c1838', b:'#06050e', c:'#c08bff' },
+  { icon:'🏰', scene:'castle', fx:'stars',    a:'#251a4a', b:'#04020c', c:'#ffd27a' },
+];
+let mascotId = 0;
+// Буль — живая колба: настроения happy / sad / wow / think
+function mascot(mood, size, extra) {
+  const id = 'm' + (++mascotId), w = size || 100;
+  const mouth = mood === 'wow' ? '<ellipse cx="50" cy="78" rx="4.5" ry="5.5" fill="#4a1840"/>'
+    : `<path d="${{ happy:'M41 74 Q50 84 59 74', sad:'M41 80 Q50 72 59 80', think:'M43 78 Q50 76 57 77' }[mood] || 'M41 74 Q50 84 59 74'}" stroke="#4a1840" stroke-width="3.4" fill="none" stroke-linecap="round"/>`;
+  const brows = mood === 'sad' ? '<path d="M31 49 L43 53 M69 49 L57 53" stroke="#2a1840" stroke-width="2.6" stroke-linecap="round"/>'
+    : mood === 'think' ? '<path d="M31 51 L43 50 M58 48 L69 46" stroke="#2a1840" stroke-width="2.6" stroke-linecap="round"/>' : '';
+  const look = mood === 'think' ? 2 : 0;
+  return `<svg class="mascot ${mood || 'happy'} ${extra || ''}" viewBox="0 0 100 110" width="${w}" height="${w * 1.1}" aria-hidden="true">
+    <defs><radialGradient id="${id}g" cx="35%" cy="30%" r="70%"><stop offset="0" stop-color="#fff" stop-opacity=".6"/><stop offset=".55" stop-color="#d8ebff" stop-opacity=".16"/><stop offset="1" stop-color="#a9cbff" stop-opacity=".28"/></radialGradient>
+    <linearGradient id="${id}l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c993ff"/><stop offset="1" stop-color="#6f36e8"/></linearGradient>
+    <clipPath id="${id}c"><circle cx="50" cy="68" r="33"/></clipPath></defs>
+    <rect x="40" y="20" width="20" height="20" rx="4" fill="url(#${id}g)" stroke="#eef5ff" stroke-width="2.5"/>
+    <rect x="36.5" y="9" width="27" height="14" rx="4.5" fill="#b8804a"/><rect x="36.5" y="9" width="27" height="4" rx="2" fill="#d9a46a"/>
+    <path d="M58 11 q9 -12 17 -5 q-8 3 -17 5z" fill="#73d96b"/><path d="M60 10 q6 -5 12 -4" stroke="#3f9a3a" stroke-width="1.2" fill="none"/>
+    <g clip-path="url(#${id}c)"><rect x="10" y="66" width="80" height="40" fill="url(#${id}l)"/>
+      <path class="mwave" d="M10 66 q5 -4 10 0 t10 0 t10 0 t10 0 t10 0 t10 0 t10 0 t10 0 t10 0 v6 h-90z" fill="#e2b8ff" opacity=".75"/>
+      <circle cx="36" cy="90" r="3" fill="#fff" opacity=".5"/><circle cx="62" cy="84" r="2" fill="#fff" opacity=".5"/><circle cx="54" cy="95" r="1.6" fill="#fff" opacity=".5"/></g>
+    <circle cx="50" cy="68" r="33" fill="url(#${id}g)" stroke="#eef5ff" stroke-width="2.5"/>
+    <path d="M28 56 q4 -14 16 -18" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"/>
+    <g class="meyes"><ellipse cx="39" cy="61" rx="7" ry="8.2" fill="#fff"/><ellipse cx="61" cy="61" rx="7" ry="8.2" fill="#fff"/>
+      <circle cx="${40 + look}" cy="62.5" r="4.1" fill="#2a1840"/><circle cx="${62 + look}" cy="62.5" r="4.1" fill="#2a1840"/>
+      <circle cx="${41.6 + look}" cy="60.4" r="1.5" fill="#fff"/><circle cx="${63.6 + look}" cy="60.4" r="1.5" fill="#fff"/></g>
+    ${brows}<ellipse cx="29.5" cy="73" rx="5" ry="3" fill="#ff7ab8" opacity=".55"/><ellipse cx="70.5" cy="73" rx="5" ry="3" fill="#ff7ab8" opacity=".55"/>${mouth}
+  </svg>`;
+}
+// Шапка главного экрана: Буль между двумя флаконами и искорки
+function heroHTML() {
+  const bottle = (cl, fill) => `<svg class="hb ${cl}" viewBox="0 0 40 60" width="34" height="51" aria-hidden="true"><rect x="14" y="2" width="12" height="7" rx="2" fill="#b8804a"/>
+    <path d="M15 9 h10 v9 q10 5 10 17 v14 q0 8 -8 8 h-14 q-8 0 -8 -8 v-14 q0 -12 10 -17z" fill="rgba(255,255,255,.12)" stroke="#eef5ff" stroke-width="2"/>
+    <path d="M6.5 36 q13 -4 27 0 v13 q0 6 -6 6 h-15 q-6 0 -6 -6z" fill="${fill}"/><path d="M11 22 q-3 6 -2 14" stroke="#fff" stroke-width="2" fill="none" opacity=".6"/></svg>`;
+  return bottle('l', '#3fd6c4') + mascot('happy', 74) + bottle('r', '#ff6ac1') +
+    '<i class="sp" style="left:22%;top:8%">✦</i><i class="sp" style="right:24%;top:2%;animation-delay:-.9s">✦</i><i class="sp" style="right:14%;top:42%;font-size:10px;animation-delay:-.4s">✦</i>';
+}
+// Анимированные слои фона
+function animLayer(fx, c) {
+  if (fx === 'opal') return '<div class="an-opal"></div>';
+  if (fx === 'lavalamp') return [[-15, 5, 19, 0], [40, 35, 23, -6], [10, 60, 27, -12], [55, -10, 31, -3]].map(([x, y, d, del], q) =>
+    `<div class="an-blob" style="left:${x}%;top:${y}%;--blob:${q % 2 ? hexA(c, .5) : 'rgba(255,140,60,.38)'};animation-duration:${d}s;animation-delay:${del}s"></div>`).join('');
+  if (fx === 'nebula') return '<div class="an-neb"></div><div class="an-neb n2"></div>';
+  if (fx === 'prism') return '<div class="an-prism"></div>';
+  if (fx === 'tide') return `<div class="an-tide" style="--wave:${hexA(c, .35)}"><i></i><i></i><i></i></div>`;
+  if (fx === 'mist') return '<div class="an-mist"></div><div class="an-mist m2"></div>';
+  return '';
+}
+// Силуэты сцен глав (виден край экрана — центр занят колбами)
+function sceneSVG(type, c) {
+  const K = 'rgba(0,0,0,.45)', A = hexA(c, .55), A2 = hexA(c, .25);
+  const bottle = (x, y, h) => `<path d="M${x - 4} ${y - h} h8 v${h * .3} q${h * .3} ${h * .12} ${h * .3} ${h * .4} v${h * .3} h-${h * .6 + 8} v-${h * .3} q0 -${h * .28} ${h * .3} -${h * .4}z"/>`;
+  const S = {
+    shop: `<g fill="${K}"><rect x="0" y="690" width="400" height="110"/><rect x="0" y="560" width="110" height="8"/><rect x="290" y="560" width="110" height="8"/>
+      ${bottle(25, 560, 40)}${bottle(60, 560, 28)}${bottle(90, 560, 48)}${bottle(310, 560, 34)}${bottle(345, 560, 50)}${bottle(380, 560, 26)}</g>
+      <g fill="${A2}">${[40, 120, 280, 360].map((x, q) => `<g class="sway" style="animation-delay:-${q}s"><rect x="${x - 1}" y="0" width="2" height="60"/><ellipse cx="${x}" cy="70" rx="12" ry="20"/><ellipse cx="${x - 10}" cy="58" rx="6" ry="12"/><ellipse cx="${x + 10}" cy="60" rx="6" ry="12"/></g>`).join('')}</g>`,
+    cellar: `<path fill="${K}" d="M0 800 V640 Q50 560 100 640 Q150 560 200 640 Q250 560 300 640 Q350 560 400 640 V800z"/>
+      ${[30, 370].map(x => `<rect x="${x - 4}" y="690" width="8" height="40" fill="${K}"/><ellipse class="glw" cx="${x}" cy="680" rx="6" ry="11" fill="${A}"/><circle class="glw" cx="${x}" cy="680" r="30" fill="${A2}"/>`).join('')}`,
+    mine: `<g fill="${K}"><rect x="10" y="300" width="18" height="500"/><rect x="372" y="300" width="18" height="500"/><rect x="0" y="290" width="400" height="20"/><rect x="0" y="740" width="400" height="60"/></g>
+      ${[[50, 740, 30], [80, 740, 50], [330, 740, 44], [360, 740, 26], [200, 740, 22]].map(([x, y, h], q) => `<path class="glw" style="animation-delay:-${q * .5}s" d="M${x - h * .3} ${y} L${x} ${y - h} L${x + h * .3} ${y}z" fill="${A}"/>`).join('')}`,
+    ice: `<g fill="rgba(220,240,255,.18)">${[...Array(14)].map((_, q) => { const x = q * 30 + 5, h = 30 + (q * 37 % 60); return `<path d="M${x} 0 L${x + 12} 0 L${x + 6} ${h}z"/>`; }).join('')}</g>
+      <g fill="rgba(230,245,255,.16)"><ellipse cx="60" cy="800" rx="150" ry="70"/><ellipse cx="330" cy="810" rx="170" ry="80"/></g>`,
+    bazaar: `<g fill="${K}"><path d="M-10 800 L60 680 L130 800z"/><path d="M270 800 L340 670 L410 800z"/><rect x="0" y="780" width="400" height="20"/></g>
+      <g stroke="${A2}" stroke-width="2">${[60, 340].map(x => `<line x1="${x}" y1="0" x2="${x}" y2="90"/>`).join('')}</g>${[60, 340].map((x, q) => `<circle class="glw" style="animation-delay:-${q}s" cx="${x}" cy="102" r="12" fill="${A}"/>`).join('')}`,
+    sea: `<g fill="rgba(255,255,255,.05)"><path d="M60 0 L120 0 L60 500z"/><path d="M220 0 L270 0 L300 450z"/></g>
+      <g fill="${K}"><ellipse cx="50" cy="790" rx="110" ry="40"/><ellipse cx="350" cy="800" rx="120" ry="45"/></g>
+      <g fill="${A2}">${[30, 60, 340, 375].map((x, q) => `<path class="sway" style="animation-delay:-${q * .7}s" d="M${x} 780 q-12 -40 0 -80 q12 -40 0 -90 q8 40 6 90 q-2 40 4 80z"/>`).join('')}</g>`,
+    forge: `<path fill="${K}" d="M0 800 V700 L40 660 L70 690 L110 640 L140 700 L260 700 L290 650 L320 680 L360 630 L400 680 V800z"/>
+      <rect class="glw" x="0" y="760" width="400" height="40" fill="${A}"/><rect x="170" y="690" width="60" height="12" fill="${K}"/><rect x="185" y="702" width="30" height="20" fill="${K}"/>`,
+    sky: `<path fill="${K}" d="M250 800 V720 Q320 640 390 720 V800z"/><rect x="300" y="650" width="10" height="70" fill="${K}" transform="rotate(-30 305 685)"/>
+      <circle cx="80" cy="110" r="34" fill="${A2}"/><circle cx="94" cy="100" r="30" fill="#000" opacity=".55"/>`,
+    forest: `<g fill="${K}">${[[20, 800, 220], [70, 800, 160], [330, 800, 200], [380, 800, 260]].map(([x, y, h]) => `<path d="M${x} ${y - h} L${x + 40} ${y} L${x - 40} ${y}z"/>`).join('')}</g>
+      ${[[120, 790], [150, 794], [270, 792]].map(([x, y], q) => `<g class="glw" style="animation-delay:-${q * .8}s" fill="${A}"><ellipse cx="${x}" cy="${y - 10}" rx="12" ry="7"/><rect x="${x - 2}" y="${y - 6}" width="4" height="10"/></g>`).join('')}`,
+    castle: `<g fill="${K}"><rect x="0" y="640" width="60" height="160"/><rect x="340" y="620" width="60" height="180"/><rect x="40" y="700" width="320" height="100"/>
+      <path d="M-5 640 L30 580 L65 640z"/><path d="M335 620 L370 555 L405 620z"/></g>
+      ${[[25, 680], [365, 660], [120, 740], [280, 740]].map(([x, y], q) => `<rect class="glw" style="animation-delay:-${q * .6}s" x="${x - 5}" y="${y}" width="10" height="16" rx="5" fill="${A}"/>`).join('')}
+      <circle cx="320" cy="110" r="28" fill="${A2}"/>`,
+  };
+  return `<svg viewBox="0 0 400 800" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">${S[type] || ''}</svg>`;
+}
+
 const PALETTES = [
   { id:'classic',  name:'Классика', price:0, c:['#ef3b4f','#ff8a1f','#ffd43b','#a3e635','#1fa75a','#19c6c0','#4cb8ff','#3d5af1','#9b51e0','#ff6ac1','#9a5b2f','#f4f1ea'] },
   { id:'contrast', name:'Контраст для дальтоников', price:0, c:['#e69f00','#56b4e9','#009e73','#f0e442','#0072b2','#d55e00','#cc79a7','#f4f4f4','#8c8c8c','#8b4513','#9ae65c','#6a3d9a'] },
@@ -514,7 +673,7 @@ const INFOf = k => [MICON[k], tr('mt.' + k), tr('md.' + k)];
 const RICON = { hard:'🔥', boss:'👑', blitz:'⏱️', recipe:'📜' };
 
 // ---------- Сохранение ----------
-const S = { unlocked:1, stars:{}, sound:true, vib:true, glyph:false, fast:false, remix:true, badges:true, seen:{}, owned:{}, equip:{}, spent:0, bonus:0, gift:{ last:'', streak:0 }, dailyDone:'', ach:{}, stats:{} };
+const S = { unlocked:1, stars:{}, sound:true, vib:true, glyph:false, fast:false, remix:true, badges:true, chapterBg:true, seen:{}, owned:{}, equip:{}, spent:0, bonus:0, gift:{ last:'', streak:0 }, dailyDone:'', ach:{}, stats:{} };
 try { Object.assign(S, JSON.parse(localStorage.getItem('zelevar-v1') || '{}')); } catch (e) {}
 function initShopState() {
   if (typeof S.theme === 'number') {          // старые сохранения: темы открывались по порогу звёзд
@@ -596,18 +755,34 @@ const settle = (anim, ms) => Promise.race([anim.finished.catch(() => {}), wait(m
 })();
 function applyTheme() {
   document.body.classList.toggle('nobadges', S.badges === false);
-  const t = shopItem('theme', eq('theme')), r = document.documentElement.style;
-  r.setProperty('--bg1', t.a); r.setProperty('--bg2', t.b); r.setProperty('--bg3', hexA(t.c, .32));
-  ['aurora', 'embers', 'candy', 'forest', 'stars'].forEach(f => document.body.classList.toggle('th-' + f, t.fx === f));
+  applyBackdrop();
+  setPalette(shopItem('palette', eq('palette')).c);
+  $('board').className = `sk-${eq('skin')} lq-${eq('liquid')} ck-${eq('cork')} se-${eq('select')}`;
+  applyParticles();
+}
+
+// На уровнях — фон главы (если включено), в меню и на тестовом уровне — фон из лавки
+function curChapter() {
+  if ($('game').hidden || S.chapterBg === false || !L || !(L.n >= 1) || L.n > TOTAL || mode === 'preview' || mode === 'custom' || tryOn) return null;
+  return CHAPTERS[Math.min(CHAPTERS.length - 1, Math.floor((L.n - 1) / 100))];
+}
+let lastBackdrop = '';
+function applyBackdrop() {
+  const ch = curChapter(), t = shopItem('theme', eq('theme')), src = ch || t, r = document.documentElement.style;
+  r.setProperty('--bg1', src.a); r.setProperty('--bg2', src.b); r.setProperty('--bg3', hexA(src.c, .32));
+  const keyB = (ch ? ch.scene : 'theme:' + t.id);
+  if (keyB === lastBackdrop) return;
+  lastBackdrop = keyB;
+  const fx = src.fx;
+  ['aurora', 'embers', 'candy', 'forest', 'stars'].forEach(f => document.body.classList.toggle('th-' + f, fx === f));
+  $('bgAnim').innerHTML = animLayer(fx, src.c);
+  $('scene').innerHTML = ch ? sceneSVG(ch.scene, ch.c) : '';
   const bg = $('bg'); bg.querySelectorAll('.tw').forEach(e => e.remove());
-  if (t.fx === 'stars') for (let q = 0; q < 60; q++) {
+  if (fx === 'stars') for (let q = 0; q < 60; q++) {
     const d = document.createElement('i'); d.className = 'tw';
     d.style.cssText = `left:${Math.random() * 100}%;top:${Math.random() * 100}%;animation-delay:${-Math.random() * 3}s;opacity:${.3 + Math.random() * .7}`;
     bg.appendChild(d);
   }
-  setPalette(shopItem('palette', eq('palette')).c);
-  $('board').className = `sk-${eq('skin')} lq-${eq('liquid')} ck-${eq('cork')} se-${eq('select')}`;
-  applyParticles();
 }
 
 function applyParticles() {
@@ -635,7 +810,7 @@ function miniFlask(cls, units, cork, uh, sel) {
 }
 function preview(cat, it, big) {
   const e = S.equip, uh = big ? 24 : 15;
-  if (cat === 'theme') return `<div class="pvth" style="background:radial-gradient(70% 50% at 80% 100%,${hexA(it.c, .55)},transparent),radial-gradient(120% 90% at 50% 0%,${it.a},${it.b})"></div>`;
+  if (cat === 'theme') return `<div class="pvth" style="background:radial-gradient(70% 50% at 80% 100%,${hexA(it.c, .55)},transparent),radial-gradient(120% 90% at 50% 0%,${it.a},${it.b})">${animLayer(it.fx, it.c)}</div>`;
   if (cat === 'palette') return `<div class="pvpal">${it.c.map(h => `<i style="background:${h}"></i>`).join('')}</div>`;
   if (it.icon) return `<div class="pvfx">${it.icon}</div>`;
   if (cat === 'select') return miniFlask(`sk-${e.skin} lq-${e.liquid} ck-${e.cork} se-${it.id}`, [0, 6, 8], false, uh, true);
@@ -713,6 +888,11 @@ $('modal').addEventListener('click', e => { if (e.target.id === 'modal' && modal
 let page = 0;
 function showHome() {
   stopTimer(); $('game').hidden = true; $('home').hidden = false;
+  applyBackdrop();
+  if (!$('hero').innerHTML) $('hero').innerHTML = heroHTML();
+  const allM = Object.keys(Core.MECHS);
+  $('mechTotal').textContent = allM.filter(m => Core.MECHS[m] <= S.unlocked).length; $('mechAll').textContent = allM.length;
+  $('genBtn').classList.toggle('locked', !genUnlocked());
   $('starTotal').textContent = balance();
   $('doneTotal').textContent = Object.keys(S.stars).length; $('lvTotal').textContent = TOTAL;
   const cur = Math.min(S.unlocked, TOTAL);
@@ -724,7 +904,7 @@ function renderTabs() {
   const t = $('tabs'); t.innerHTML = '';
   for (let p = 0; p * 100 < TOTAL; p++) {
     const b = document.createElement('button');
-    b.textContent = (p * 100 + 1) + '–' + Math.min(TOTAL, p * 100 + 100);
+    b.textContent = (CHAPTERS[p] ? CHAPTERS[p].icon + ' ' : '') + (p * 100 + 1) + '–' + Math.min(TOTAL, p * 100 + 100);
     if (p === page) b.className = 'on';
     b.onclick = () => { page = p; renderTabs(); renderGrid(); };
     t.appendChild(b);
@@ -733,6 +913,7 @@ function renderTabs() {
 }
 function renderGrid() {
   const g = $('grid'); g.innerHTML = '';
+  $('chapName').textContent = CHAPTERS[page] ? tr('chapterN', page + 1) + ' · ' + tr('ch.' + page) : '';
   const frag = document.createDocumentFragment();
   for (let n = page * 100 + 1; n <= Math.min(TOTAL, page * 100 + 100); n++) {
     const L = LEVELS[n - 1], b = document.createElement('button'), st = S.stars[n] || 0;
@@ -753,11 +934,11 @@ function toggleRow(label, key, after) {
 function openSettings() {
   const total = starSum();
   const c = modal(`<h2>${tr('settings')}</h2>
-    <div class="set">${tr('language')}<select id="langSel">${I18N_LANGS.map(l => `<option value="${l.id}"${l.id === S.lang ? ' selected' : ''}>${l.name}</option>`).join('')}</select></div>${toggleRow(tr('sound'), 'sound')}${toggleRow(tr('vibration'), 'vib')}${toggleRow(tr('glyphs'), 'glyph')}${toggleRow(tr('fastAnim'), 'fast')}${toggleRow(tr('shuffle'), 'remix')}${toggleRow(tr('labels'), 'badges')}
+    <div class="set">${tr('language')}<select id="langSel">${I18N_LANGS.map(l => `<option value="${l.id}"${l.id === S.lang ? ' selected' : ''}>${l.name}</option>`).join('')}</select></div>${toggleRow(tr('sound'), 'sound')}${toggleRow(tr('vibration'), 'vib')}${toggleRow(tr('glyphs'), 'glyph')}${toggleRow(tr('fastAnim'), 'fast')}${toggleRow(tr('shuffle'), 'remix')}${toggleRow(tr('labels'), 'badges')}${toggleRow(tr('chapterBg'), 'chapterBg')}
     <div class="btns" style="margin:14px 0 8px"><button class="btn" id="setShop">${tr('designShop')}</button><button class="btn" id="setSave">${tr('saveProg')}</button>${IN_APP ? `<button class="btn" id="setUpd">${tr('updCheck')}</button>` : ''}</div>
     <div class="ver">${tr('version', APP_VERSION)}</div>
     <div class="btns"><button class="btn" id="resetBtn">${tr('reset')}</button><button class="btn pri" id="okBtn">${tr('done')}</button></div>`);
-  c.querySelectorAll('.sw').forEach(s => s.onclick = () => { S[s.dataset.k] = !S[s.dataset.k]; s.classList.toggle('on'); save(); snd.tap(); document.body.classList.toggle('nobadges', S.badges === false); if (!$('game').hidden && !anims) renderAll(); });
+  c.querySelectorAll('.sw').forEach(s => s.onclick = () => { S[s.dataset.k] = !S[s.dataset.k]; s.classList.toggle('on'); save(); snd.tap(); document.body.classList.toggle('nobadges', S.badges === false); lastBackdrop = ''; applyBackdrop(); if (!$('game').hidden && !anims) renderAll(); });
   $('setShop').onclick = () => openShop();
   $('setSave').onclick = () => openSaveScreen();
   if ($('setUpd')) $('setUpd').onclick = () => { closeModal(); checkUpdate(true); };
@@ -837,7 +1018,7 @@ function importCode(text) {
 }
 
 // ---------- Проверка обновлений: раз в день смотрим последний релиз на GitHub ----------
-const APP_VERSION = '2.2';
+const APP_VERSION = '2.3';
 const RELEASES_API = 'https://api.github.com/repos/QwertyQwertovich/zelevar/releases/latest';
 const verNum = v => String(v).replace(/^v/i, '').split('.').map(x => parseInt(x, 10) || 0);
 function isNewer(a, b) { const x = verNum(a), y = verNum(b); for (let q = 0; q < Math.max(x.length, y.length); q++) { const d = (x[q] || 0) - (y[q] || 0); if (d) return d > 0; } return false; }
@@ -866,6 +1047,44 @@ async function checkUpdate(manual) {
   if (manual) show(); else whenFree(show);
 }
 
+// ---------- Генератор уровней (открывается после 1000-го) ----------
+let customLevel = null;
+const GEN = Object.assign({ colors:7, portions:4, empties:2, diff:'normal', mode:'', mechs:[] }, S.gen || {});
+const genUnlocked = () => S.unlocked > TOTAL;
+function openGenerator() {
+  if (!genUnlocked()) { snd.err(); return toast(tr('genLocked')); }
+  const mechList = Object.keys(Core.MECHS).filter(m => !Core.MODES.includes(m) && m !== 'deep');
+  const seg = (k, vals, label) => `<div class="seg" data-k="${k}">${vals.map(v => `<button data-v="${v}" class="${String(GEN[k]) === String(v) ? 'on' : ''}">${label(v)}</button>`).join('')}</div>`;
+  const c = modal(`<div class="mrow">${mascot('think', 70)}</div><h2>${tr('genTitle')}</h2><p>${tr('genText')}</p>
+    <div class="gset"><span>${tr('genColors')}: <b id="gcV">${GEN.colors}</b></span><input type="range" id="gc" min="3" max="11" value="${GEN.colors}"></div>
+    <div class="gset"><span>${tr('genPortions')}</span>${seg('portions', [4, 5], v => v)}</div>
+    <div class="gset"><span>${tr('genEmpty')}</span>${seg('empties', [1, 2, 3], v => v)}</div>
+    <div class="gset"><span>${tr('genDiff')}</span>${seg('diff', ['easy', 'normal', 'hard'], v => tr('diff_' + v))}</div>
+    <div class="gset"><span>${tr('genMode')}</span>${seg('mode', ['', 'blitz', 'recipe'], v => v ? MICON[v] + ' ' + tr('role.' + v) : tr('modeNone'))}</div>
+    <div style="margin-top:10px;font-size:14px;text-align:left">${tr('genMechs')}</div>
+    <div class="gmech">${mechList.map(m => `<button data-m="${m}" class="${GEN.mechs.includes(m) ? 'on' : ''}">${MICON[m]} ${tr('mt.' + m)}</button>`).join('')}</div>
+    <div class="btns" style="margin-top:14px"><button class="btn" onclick="closeModal()">${tr('back')}</button><button class="btn pri" id="gGo">${tr('genBrew')}</button></div>`);
+  $('gc').oninput = e => { GEN.colors = +e.target.value; $('gcV').textContent = GEN.colors; };
+  c.querySelectorAll('.seg').forEach(sg => sg.querySelectorAll('button').forEach(b => b.onclick = () => {
+    const k = sg.dataset.k, v = b.dataset.v; GEN[k] = k === 'portions' || k === 'empties' ? +v : v;
+    sg.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); snd.tap();
+  }));
+  c.querySelectorAll('.gmech button').forEach(b => b.onclick = () => {
+    const m = b.dataset.m, i = GEN.mechs.indexOf(m);
+    if (i >= 0) GEN.mechs.splice(i, 1); else if (GEN.mechs.length < 4) GEN.mechs.push(m); else return toast(tr('genMax'));
+    b.classList.toggle('on', i < 0); snd.tap();
+  });
+  $('gGo').onclick = brewCustom;
+}
+function brewCustom() {
+  S.gen = GEN; save(); closeModal(false); toast(tr('genBrewing'));
+  setTimeout(() => {
+    const lv = Core.makeCustom({ colors:GEN.colors, portions:GEN.portions, empties:GEN.empties, diff:GEN.diff, mode:GEN.mode, mechs:GEN.mechs.slice() });
+    if (!lv) { snd.err(); toast(tr('genFail')); return; }
+    customLevel = lv; startLevel(lv.n, false, 'custom');
+  }, 80);
+}
+
 // ---------- Платные инструменты и заработок звёзд ----------
 const PRICE = { undo:1, hint:3, add:5 }, FREE_UNDO = 3;
 const GIFT = [5, 7, 9, 12, 15, 18, 30];
@@ -887,7 +1106,7 @@ function giftState() {
 }
 function openGift() {
   const gs = giftState();
-  modal(`<div class="big">🎁</div><h2>${tr('giftTitle')}</h2><p>${tr('giftText')}${gs.streak > 1 ? `<br><b>${tr('streak', gs.streak)}</b>` : ''}</p>
+  modal(`<div class="mrow">${mascot('wow', 70)}<div class="big">🎁</div></div><h2>${tr('giftTitle')}</h2><p>${tr('giftText')}${gs.streak > 1 ? `<br><b>${tr('streak', gs.streak)}</b>` : ''}</p>
     <div class="days">${GIFT.map((r, i) => `<div class="day${i + 1 < gs.day || (i + 1 === gs.day && !gs.ready) ? ' got' : ''}${i + 1 === gs.day && gs.ready ? ' now' : ''}"><small>${tr('day', i + 1)}</small><b>${r} ⭐</b></div>`).join('')}</div>
     <div class="btns">${gs.ready ? `<button class="btn pri" id="gYes">${tr('claim', GIFT[gs.day - 1])}</button>` : `<button class="btn" onclick="closeModal()">${tr('tomorrow')}</button>`}</div>`, () => { if (!$('home').hidden) showHome(); });
   if (gs.ready) $('gYes').onclick = () => {
@@ -952,6 +1171,9 @@ $('achBtn').onclick = openAch;
 $('dailyBtn').onclick = () => { ac(); startLevel(dailyLevelN(), false, 'daily'); };
 
 $('setBtn').onclick = openSettings;
+$('ghBtn').onclick = () => openExternal('https://github.com/QwertyQwertovich/zelevar');
+$('mechChip').onclick = () => openInfo();
+$('genBtn').onclick = () => { ac(); openGenerator(); };
 $('shopBtn').onclick = () => openShop();
 $('infoBtn').onclick = openInfo;
 
@@ -1008,12 +1230,14 @@ function renderTryBar() {
   if ($('tbBuy')) $('tbBuy').onclick = buyFromTry;
   $('tbShop').onclick = leaveGame;
 }
-function restart() { startLevel(mode === 'preview' ? 0 : L.n, true, mode); }
+const freeMode = () => mode === 'preview' || mode === 'custom';
+function restart() { startLevel(freeMode() ? 0 : L.n, true, mode); }
 function leaveGame() { token++; clearFx(); stopTimer(); if (mode === 'preview') exitTry(); else showHome(); }
 
 function startLevel(n, remix, m) {
   mode = m || 'normal';
   if (mode === 'preview') L = previewLevel();
+  else if (mode === 'custom') { L = JSON.parse(JSON.stringify(customLevel)); if (S.remix) remixLevel(L); }
   else {
     L = JSON.parse(JSON.stringify(LEVELS[n - 1]));
     if (mode === 'daily' && !remix) remixLevel(L, Core.rng(daySeed()));
@@ -1023,7 +1247,7 @@ function startLevel(n, remix, m) {
   st = Core.initState(L); view = st.f.map(a => a.slice()); hist = []; sel = -1; busy = false; undosUsed = 0;
   usedHint = false; usedExtra = false; hint = null; endState = null;
   $('home').hidden = true; $('game').hidden = false;
-  $('lvlTitle').innerHTML = mode === 'preview' ? (tryOn ? tr('tryTitle') : tr('testTitle')) : mode === 'daily' ? tr('dailyTitle')
+  $('lvlTitle').innerHTML = mode === 'preview' ? (tryOn ? tr('tryTitle') : tr('testTitle')) : mode === 'custom' ? tr('customTitle') : mode === 'daily' ? tr('dailyTitle')
     : tr('level', n) + (RICON[L.role] ? `<span class="role ${L.role}">${RICON[L.role]} ${tr('role.' + L.role)}</span>` : '');
   const tb = $('tryBar'); tb.hidden = mode !== 'preview';
   if (mode === 'preview' && !tryOn) {
@@ -1034,20 +1258,22 @@ function startLevel(n, remix, m) {
   stopTimer();
   renderAll();
   const go = () => { if (L.role === 'blitz') startTimer(L.time); };
-  if (mode === 'preview') return go();
+  applyBackdrop();
+  if (mode === 'preview' || mode === 'custom') return go();
   if (mode === 'daily') {
     const done = S.dailyDone === today();
     modal(`<div class="big">🧪</div><h2>${tr('daily')}</h2><p>${done ? tr('dailyDone') : tr('dailyGet')}<br><small>${tr('dailyNew')}</small></p>
       <div class="btns"><button class="btn pri" onclick="closeModal()">${tr('brew')}</button></div>`, go);
     return;
   }
+  const runIntro = () => {
   const intro = n === 1 ? 'basic' : Core.MODES.includes(L.role) && Core.MECHS[L.role] === n ? L.role : L.intro;
   if (intro === 'basic') {
-    modal(`<div class="big">⚗️</div><h2>${tr('welcome')}</h2><p>${tr('welcomeText')}</p>
+    modal(`<div class="mrow">${mascot('happy', 100)}</div><h2>${tr('welcome')}</h2><p>${tr('welcomeText')}</p>
       <div class="btns"><button class="btn pri" onclick="closeModal()">${tr('start')}</button></div>`, go);
   } else if (intro && MICON[intro]) {
     const i = INFOf(intro);
-    modal(`<div class="big">${i[0]}</div><div style="color:var(--gold);font-weight:700;font-size:13px;letter-spacing:1px">${Core.MODES.includes(intro) ? tr('newMode') : tr('newMech')}</div><h2>${i[1]}</h2><p>${i[2]}</p>
+    modal(`<div class="mrow">${mascot('wow', 70)}<div class="big">${i[0]}</div></div><div style="color:var(--gold);font-weight:700;font-size:13px;letter-spacing:1px">${Core.MODES.includes(intro) ? tr('newMode') : tr('newMech')}</div><h2>${i[1]}</h2><p>${i[2]}</p>
       <div class="btns"><button class="btn pri" onclick="closeModal()">${tr('go')}</button></div>`, go);
   } else if (L.role === 'boss') {
     modal(`<div class="big">👑</div><h2>${tr('role.boss')}</h2><p>${tr('bossText')}</p>
@@ -1057,6 +1283,14 @@ function startLevel(n, remix, m) {
   } else if (L.role === 'recipe') {
     modal(`<div class="big">📜</div><h2>${tr('role.recipe')}</h2><p>${tr('recipeText', L.limit)}</p><div class="btns"><button class="btn pri" onclick="closeModal()">${tr('brew')}</button></div>`, go);
   } else go();
+  };
+  // начало новой главы — сначала её заставка
+  if (mode === 'normal' && n % 100 === 1 && n > 1 && CHAPTERS[(n - 1) / 100]) {
+    const p = (n - 1) / 100, ch = CHAPTERS[p];
+    modal(`<div class="mrow">${mascot('wow', 70)}<div class="big">${ch.icon}</div></div><div style="color:var(--gold);font-weight:700;font-size:13px;letter-spacing:1px">${tr('chapterNew')}</div>
+      <h2>${tr('chapterN', p + 1)} · ${tr('ch.' + p)}</h2><p>${tr('chapterText', n, Math.min(TOTAL, n + 99))}</p>
+      <div class="btns"><button class="btn pri" onclick="closeModal()">${tr('go')}</button></div>`, runIntro);
+  } else runIntro();
 }
 
 function layout() {
@@ -1117,7 +1351,7 @@ function updHeader() {
   if (mode !== 'preview') t += ' · ' + balance() + ' ⭐';
   $('lvlSub').textContent = t;
   $('undoBtn').disabled = !hist.length;
-  const free = mode === 'preview';
+  const free = freeMode();
   $('undoCost').textContent = free ? tr('free') : undosUsed < FREE_UNDO ? tr('freeN', FREE_UNDO - undosUsed) : PRICE.undo + ' ⭐';
   $('hintCost').textContent = free ? tr('free') : PRICE.hint + ' ⭐';
   $('addCost').textContent = free ? tr('free') : usedExtra ? '—' : PRICE.add + ' ⭐';
@@ -1291,8 +1525,8 @@ function checkStuck() {
 function showStuck() {
   if (endState) return;
   endState = 'stuck'; snd.lose(); vib([60, 40, 60]);
-  const cost = mode === 'preview' ? 0 : PRICE.add, undoCost = mode === 'preview' || undosUsed < FREE_UNDO ? 0 : PRICE.undo;
-  modal(`<div class="big">🫙</div><h2>${tr('stuckTitle')}</h2><p>${tr(anyMove() ? 'stuckNoWin' : 'stuckNoMoves')}</p>
+  const cost = freeMode() ? 0 : PRICE.add, undoCost = freeMode() || undosUsed < FREE_UNDO ? 0 : PRICE.undo;
+  modal(`<div class="mrow">${mascot('sad', 80)}</div><h2>${tr('stuckTitle')}</h2><p>${tr(anyMove() ? 'stuckNoWin' : 'stuckNoMoves')}</p>
     <div class="btns" style="flex-direction:column;align-items:stretch">
       ${hist.length ? `<button class="btn" id="sUndo">↶ ${tr('undoMove')}${undoCost ? ' · ' + undoCost + ' ⭐' : ''}</button>` : ''}
       ${usedExtra ? '' : `<button class="btn" id="sAdd">➕ ${tr('addFlask')}${cost ? ' · ' + cost + ' ⭐' : ''}</button>`}
@@ -1467,6 +1701,16 @@ async function win() {
     if ($('pBuy')) $('pBuy').onclick = buyFromTry;
     return;
   }
+  if (mode === 'custom') {
+    S.stats.bottles += L.k; save();
+    await wait(900);
+    modal(`<div class="mrow">${mascot('happy', 80, 'jump')}</div><h2>${tr('win' + (st.moves % 4))}</h2><p>${tr('customDone')} · ${tr('movesN', st.moves)}</p>
+      <div class="btns"><button class="btn" id="cMenu">${tr('menu')}</button><button class="btn" id="cSet">${tr('genSettings')}</button><button class="btn pri" id="cNew">${tr('genAnother')}</button></div>`, 'locked');
+    $('cMenu').onclick = () => { closeModal(false); showHome(); };
+    $('cSet').onclick = () => { closeModal(false); showHome(); openGenerator(); };
+    $('cNew').onclick = () => { closeModal(false); brewCustom(); };
+    return;
+  }
   const achBefore = achReady(), prevTotal = starSum();
   let reward = 0;
   S.stats.bottles += L.k;
@@ -1481,7 +1725,7 @@ async function win() {
   const gained = starSum() - prevTotal + reward, newAch = achReady() > achBefore;
   await wait(900);
   const last = mode === 'normal' && n >= TOTAL;
-  modal(`<h2>${mode === 'daily' ? tr('dailyWin') : L.role === 'boss' ? tr('bossWin') : tr('win' + (n % 4))}</h2>
+  modal(`<div class="mrow">${mascot('happy', 78, 'jump')}</div><h2>${mode === 'daily' ? tr('dailyWin') : L.role === 'boss' ? tr('bossWin') : tr('win' + (n % 4))}</h2>
     ${mode === 'daily' ? '<div class="big">🧪</div>' : `<div class="stars">${[0, 1, 2].map(q => `<span class="${q < stars ? 'on' : ''}" style="animation-delay:${.15 + q * .2}s">★</span>`).join('')}</div>`}
     <p>${mode === 'daily' ? (reward ? tr('dailyReward') : tr('dailyAlready')) : tr('level', n)} · ${tr('movesN', st.moves)}
     ${mode !== 'daily' && stars < 3 ? `<br><small>${tr('threeStars')}</small>` : ''}
@@ -1496,14 +1740,14 @@ async function win() {
 function boomOut() {
   snd.boom(); vib([80, 40, 120]);
   const F = L.flasks.find(f => f.bomb > 0 && f.bomb === st.moves) || L.flasks.find(f => f.bomb > 0);
-  modal(`<div class="big">💥</div><h2>${tr('boomTitle')}</h2><p>${tr('boomText', F ? F.bomb : '')}</p>
+  modal(`<div class="mrow">${mascot('sad', 70)}<div class="big">💥</div></div><h2>${tr('boomTitle')}</h2><p>${tr('boomText', F ? F.bomb : '')}</p>
     <div class="btns"><button class="btn" id="bUndo">↶ ${tr('undoMove')}</button><button class="btn pri" id="bAgain">${tr('restart')}</button></div>`, 'locked');
   $('bUndo').onclick = () => { closeModal(false); endState = null; doUndo(true); };
   $('bAgain').onclick = () => { closeModal(false); restart(); };
 }
 function movesOut() {
   snd.lose(); vib([60, 40, 60]);
-  modal(`<div class="big">📜</div><h2>${tr('movesOver')}</h2><p>${tr('movesOverText', L.limit)}</p>
+  modal(`<div class="mrow">${mascot('sad', 70)}<div class="big">📜</div></div><h2>${tr('movesOver')}</h2><p>${tr('movesOverText', L.limit)}</p>
     <div class="btns"><button class="btn" id="mUndo">↶ ${tr('undoMove')}</button><button class="btn pri" id="mAgain">${tr('restart')}</button></div>`, 'locked');
   $('mUndo').onclick = () => { closeModal(false); endState = null; doUndo(true); };
   $('mAgain').onclick = () => { closeModal(false); restart(); };
@@ -1531,7 +1775,7 @@ document.addEventListener('visibilitychange', () => pauseTimer(document.hidden |
 function timeUp() {
   if (endState === 'win') return;
   busy = true; snd.lose(); vib([60, 40, 60]);
-  modal(`<div class="big">⌛</div><h2>${tr('timeUp')}</h2><p>${tr('timeUpText')}</p>
+  modal(`<div class="mrow">${mascot('sad', 70)}<div class="big">⌛</div></div><h2>${tr('timeUp')}</h2><p>${tr('timeUpText')}</p>
     <div class="btns"><button class="btn" id="tMenu">${tr('menu')}</button><button class="btn pri" id="tAgain">${tr('again')}</button></div>`, 'locked');
   $('tMenu').onclick = () => { closeModal(false); showHome(); };
   $('tAgain').onclick = () => { closeModal(false); restart(); };
@@ -1549,7 +1793,7 @@ function undo() {
 // Первые FREE_UNDO отмен за попытку бесплатны, дальше — за звёзды
 function doUndo(force) {
   if ((busy && !force) || !hist.length || endState === 'win') return;
-  if (mode !== 'preview' && undosUsed >= FREE_UNDO && !spend(PRICE.undo)) return;
+  if (!freeMode() && undosUsed >= FREE_UNDO && !spend(PRICE.undo)) return;
   undosUsed++; busy = false; undo();
 }
 $('undoBtn').onclick = () => doUndo();
@@ -1557,7 +1801,7 @@ $('restartBtn').onclick = () => { if (!busy || endState) restart(); };
 $('backBtn').onclick = leaveGame;
 $('addBtn').onclick = () => {
   if (busy || usedExtra || endState) return;
-  const cost = mode === 'preview' ? 0 : PRICE.add;
+  const cost = freeMode() ? 0 : PRICE.add;
   if (balance() < cost) { snd.err(); return toast(tr('flaskCost', cost)); }
   modal(`<div class="big">🧪</div><h2>${tr('extraQ')}</h2><p>${cost ? tr('extraCost', cost) + ' ' : ''}${tr('extraText')}</p>
     <div class="btns"><button class="btn" id="aNo">${tr('no')}</button><button class="btn pri" id="aYes">${tr('add')}${cost ? ' · ' + cost + ' ⭐' : ''}</button></div>`);
@@ -1565,7 +1809,7 @@ $('addBtn').onclick = () => {
   $('aYes').onclick = () => { closeModal(); addFlask(); };
 };
 function addFlask() {
-  const cost = mode === 'preview' ? 0 : PRICE.add;
+  const cost = freeMode() ? 0 : PRICE.add;
   if (usedExtra || !spend(cost)) return false;
   usedExtra = true; $('addBtn').disabled = true;
   L.flasks.push({ cap:L.U, type:'n', ice:0, lock:-1 }); st.f.push([]); for (const h of hist) h.f.push([]);
@@ -1575,7 +1819,7 @@ function addFlask() {
 }
 $('hintBtn').onclick = () => {
   if (busy || endState) return;
-  const cost = mode === 'preview' ? 0 : PRICE.hint;
+  const cost = freeMode() ? 0 : PRICE.hint;
   if (balance() < cost) { snd.err(); return toast(tr('hintCost', cost)); }
   toast(tr('brewingHint'));
   setTimeout(() => {
