@@ -768,15 +768,16 @@ function curChapter() {
 }
 let lastBackdrop = '';
 function applyBackdrop() {
-  const ch = curChapter(), t = shopItem('theme', eq('theme')), src = ch || t, r = document.documentElement.style;
+  // фон всегда из лавки (цвета и анимация), глава добавляет поверх свои предметы-силуэты
+  const ch = curChapter(), t = shopItem('theme', eq('theme')), src = t, r = document.documentElement.style;
   r.setProperty('--bg1', src.a); r.setProperty('--bg2', src.b); r.setProperty('--bg3', hexA(src.c, .32));
-  const keyB = (ch ? ch.scene : 'theme:' + t.id);
+  const keyB = 'theme:' + t.id + '|' + (ch ? ch.scene : '');
   if (keyB === lastBackdrop) return;
   lastBackdrop = keyB;
   const fx = src.fx;
   ['aurora', 'embers', 'candy', 'forest', 'stars'].forEach(f => document.body.classList.toggle('th-' + f, fx === f));
   $('bgAnim').innerHTML = animLayer(fx, src.c);
-  $('scene').innerHTML = ch ? sceneSVG(ch.scene, ch.c) : '';
+  $('scene').innerHTML = ch ? sceneSVG(ch.scene, ch.c) : '';   // акценты предметов — в цвете главы
   const bg = $('bg'); bg.querySelectorAll('.tw').forEach(e => e.remove());
   if (fx === 'stars') for (let q = 0; q < 60; q++) {
     const d = document.createElement('i'); d.className = 'tw';
@@ -1018,7 +1019,7 @@ function importCode(text) {
 }
 
 // ---------- Проверка обновлений: раз в день смотрим последний релиз на GitHub ----------
-const APP_VERSION = '2.3';
+const APP_VERSION = '2.3.1';
 const RELEASES_API = 'https://api.github.com/repos/QwertyQwertovich/zelevar/releases/latest';
 const verNum = v => String(v).replace(/^v/i, '').split('.').map(x => parseInt(x, 10) || 0);
 function isNewer(a, b) { const x = verNum(a), y = verNum(b); for (let q = 0; q < Math.max(x.length, y.length); q++) { const d = (x[q] || 0) - (y[q] || 0); if (d) return d > 0; } return false; }
