@@ -7,6 +7,7 @@ window.I18N_LANGS = [
 window.I18N = {};
 
 I18N.ru = {
+  lite:"🔋 Экономия батареи",
   "gen":"Генератор",
   "genTitle":"Лаборатория рецептов",
   "genLocked":"Генератор уровней откроется после 1000-го уровня",
@@ -186,6 +187,7 @@ I18N.ru = {
 };
 
 I18N.en = {
+  lite:"🔋 Battery saver",
   "gen":"Generator",
   "genTitle":"Recipe laboratory",
   "genLocked":"The level generator unlocks after level 1000",
@@ -365,6 +367,7 @@ I18N.en = {
 };
 
 I18N.uk = {
+  lite:"🔋 Економія батареї",
   "gen":"Генератор",
   "genTitle":"Лабораторія рецептів",
   "genLocked":"Генератор рівнів відкриється після 1000-го рівня",
@@ -544,6 +547,7 @@ I18N.uk = {
 };
 
 I18N.de = {
+  lite:"🔋 Akku sparen",
   "gen":"Generator",
   "genTitle":"Rezeptlabor",
   "genLocked":"Der Levelgenerator wird nach Level 1000 freigeschaltet",
@@ -723,6 +727,7 @@ I18N.de = {
 };
 
 I18N.fr = {
+  lite:"🔋 Économie de batterie",
   "gen":"Générateur",
   "genTitle":"Laboratoire de recettes",
   "genLocked":"Le générateur de niveaux se débloque après le niveau 1000",
@@ -902,6 +907,7 @@ I18N.fr = {
 };
 
 I18N.es = {
+  lite:"🔋 Ahorro de batería",
   "gen":"Generador",
   "genTitle":"Laboratorio de recetas",
   "genLocked":"El generador de niveles se desbloquea tras el nivel 1000",
@@ -1081,6 +1087,7 @@ I18N.es = {
 };
 
 I18N.pt = {
+  lite:"🔋 Economia de bateria",
   "gen":"Gerador",
   "genTitle":"Laboratório de receitas",
   "genLocked":"O gerador de níveis é liberado após o nível 1000",
@@ -1260,6 +1267,7 @@ I18N.pt = {
 };
 
 I18N.zh = {
+  lite:"🔋 省电模式",
   "gen":"生成器",
   "genTitle":"配方实验室",
   "genLocked":"通过第 1000 关后解锁关卡生成器",

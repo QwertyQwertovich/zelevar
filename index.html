@@ -354,16 +354,15 @@ body.nobadges .badge { display:none; }
 /* оформление глав и анимированные фоны */
 #scene { position:fixed; inset:0; pointer-events:none; }
 #scene svg { width:100%; height:100%; display:block; }
-#scene .sway { transform-box:fill-box; transform-origin:50% 100%; animation:sway 4s ease-in-out infinite alternate; }
-#scene .glw { animation:glowp 2.6s ease-in-out infinite alternate; }
+#scene .glw { opacity:.65; }
 @keyframes sway { from { transform:rotate(-6deg); } to { transform:rotate(6deg); } }
 @keyframes glowp { from { opacity:.35; } to { opacity:.9; } }
 #bgAnim { position:absolute; inset:0; overflow:hidden; }
 .pvth > div { pointer-events:none; }
 .an-opal { position:absolute; inset:-30%; background:radial-gradient(circle at 25% 30%, rgba(255,120,200,.28), transparent 38%), radial-gradient(circle at 75% 35%, rgba(120,200,255,.26), transparent 40%), radial-gradient(circle at 40% 75%, rgba(150,255,200,.22), transparent 38%), radial-gradient(circle at 80% 80%, rgba(255,220,120,.2), transparent 36%); animation:opal 26s ease-in-out infinite alternate; }
-@keyframes opal { 0% { transform:translate(-6%,-4%) rotate(0deg) scale(1); filter:hue-rotate(0deg); } 100% { transform:translate(6%,5%) rotate(25deg) scale(1.15); filter:hue-rotate(70deg); } }
+@keyframes opal { 0% { transform:translate(-6%,-4%) rotate(0deg) scale(1); } 100% { transform:translate(6%,5%) rotate(25deg) scale(1.15); } }
 @keyframes spin { to { transform:rotate(360deg); } }
-.an-blob { position:absolute; width:70vmax; height:70vmax; border-radius:50%; background:radial-gradient(circle, var(--blob) 0, transparent 62%); animation:blob 20s ease-in-out infinite alternate; }
+.an-blob { position:absolute; width:55vmax; height:55vmax; will-change:transform; border-radius:50%; background:radial-gradient(circle, var(--blob) 0, transparent 62%); animation:blob 20s ease-in-out infinite alternate; }
 @keyframes blob { 0% { transform:translate(-25%,5%) scale(1); } 50% { transform:translate(25%,-25%) scale(1.25); } 100% { transform:translate(-5%,35%) scale(.85); } }
 .an-neb { position:absolute; inset:-40%; background:radial-gradient(ellipse at 30% 40%, rgba(120,140,255,.32), transparent 45%), radial-gradient(ellipse at 70% 60%, rgba(255,110,200,.26), transparent 40%), radial-gradient(ellipse at 50% 20%, rgba(90,230,255,.2), transparent 35%); animation:spin 90s linear infinite; }
 .an-neb.n2 { animation-direction:reverse; animation-duration:140s; opacity:.7; }
@@ -391,6 +390,14 @@ body.nobadges .badge { display:none; }
 .gmech { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; justify-content:center; }
 .gmech button { background:rgba(255,255,255,.07); border:1px solid var(--panel-b); border-radius:12px; padding:5px 9px; font-size:12px; color:var(--muted); }
 .gmech button.on { background:rgba(63,214,196,.22); border-color:var(--acc2); color:#fff; }
+
+/* когда страница скрыта — ничего не анимируется */
+body.paused *, body.paused *::before, body.paused *::after { animation-play-state:paused !important; }
+/* экономия батареи: только анимации переливания и интерфейса, без фоновых украшений */
+body.lite #bg span, body.lite .tw, body.lite #bgAnim, body.lite #bg::before { display:none !important; }
+body.lite .mascot, body.lite .mascot *, body.lite .hero .hb, body.lite .hero .sp, body.lite .u.top::after, body.lite .flask.boilf .body::after,
+body.lite .lq-bubbly .u::before, body.lite .lq-galaxy .u::before, body.lite .lq-lava .u, body.lite .sk-neon .body, body.lite .sk-neon .neck,
+body.lite .item.afford .pr, body.lite .lv.cur, body.lite .extras button.ready span, body.lite .ice::before { animation:none !important; }
 
 /* эффекты */
 #fx { position:fixed; inset:0; pointer-events:none; z-index:50; }
@@ -677,7 +684,7 @@ const INFOf = k => [MICON[k], tr('mt.' + k), tr('md.' + k)];
 const RICON = { hard:'🔥', boss:'👑', blitz:'⏱️', recipe:'📜' };
 
 // ---------- Сохранение ----------
-const S = { unlocked:1, stars:{}, sound:true, vib:true, glyph:false, fast:false, remix:true, badges:true, chapterBg:true, seen:{}, owned:{}, equip:{}, spent:0, bonus:0, gift:{ last:'', streak:0 }, dailyDone:'', ach:{}, stats:{} };
+const S = { unlocked:1, stars:{}, sound:true, vib:true, glyph:false, fast:false, remix:true, badges:true, chapterBg:true, lite:false, seen:{}, owned:{}, equip:{}, spent:0, bonus:0, gift:{ last:'', streak:0 }, dailyDone:'', ach:{}, stats:{} };
 try { Object.assign(S, JSON.parse(localStorage.getItem('zelevar-v1') || '{}')); } catch (e) {}
 function initShopState() {
   if (typeof S.theme === 'number') {          // старые сохранения: темы открывались по порогу звёзд
@@ -759,6 +766,7 @@ const settle = (anim, ms) => Promise.race([anim.finished.catch(() => {}), wait(m
 })();
 function applyTheme() {
   document.body.classList.toggle('nobadges', S.badges === false);
+  document.body.classList.toggle('lite', !!S.lite);
   applyBackdrop();
   setPalette(shopItem('palette', eq('palette')).c);
   $('board').className = `sk-${eq('skin')} lq-${eq('liquid')} ck-${eq('cork')} se-${eq('select')}`;
@@ -783,7 +791,7 @@ function applyBackdrop() {
   $('bgAnim').innerHTML = animLayer(fx, src.c);
   $('scene').innerHTML = ch ? sceneSVG(ch.scene, ch.c) : '';   // акценты предметов — в цвете главы
   const bg = $('bg'); bg.querySelectorAll('.tw').forEach(e => e.remove());
-  if (fx === 'stars') for (let q = 0; q < 60; q++) {
+  if (fx === 'stars') for (let q = 0; q < 28; q++) {
     const d = document.createElement('i'); d.className = 'tw';
     d.style.cssText = `left:${Math.random() * 100}%;top:${Math.random() * 100}%;animation-delay:${-Math.random() * 3}s;opacity:${.3 + Math.random() * .7}`;
     bg.appendChild(d);
@@ -796,7 +804,7 @@ function applyParticles() {
   bg.dataset.kind = kind;
   bg.querySelectorAll('span').forEach(e => e.remove());
   const size = { stars:[10, 12], snow:[3, 6], fireflies:[6, 6], petals:[8, 8], bubbles:[6, 26] }[kind] || [6, 26];
-  for (let i = 0; i < 16; i++) {
+  for (let i = 0; i < (S.lite ? 0 : 10); i++) {
     const sp = document.createElement('span'), d = size[0] + Math.random() * size[1];
     sp.className = 'p-' + kind;
     sp.style.cssText = `left:${Math.random() * 100}%;width:${d}px;height:${d}px;animation-duration:${(kind === 'fireflies' ? 4 : 10) + Math.random() * 12}s;animation-delay:${-Math.random() * 20}s;--dx:${(Math.random() - .5) * 80}px`;
@@ -939,11 +947,11 @@ function toggleRow(label, key, after) {
 function openSettings() {
   const total = starSum();
   const c = modal(`<h2>${tr('settings')}</h2>
-    <div class="set">${tr('language')}<select id="langSel">${I18N_LANGS.map(l => `<option value="${l.id}"${l.id === S.lang ? ' selected' : ''}>${l.name}</option>`).join('')}</select></div>${toggleRow(tr('sound'), 'sound')}${toggleRow(tr('vibration'), 'vib')}${toggleRow(tr('glyphs'), 'glyph')}${toggleRow(tr('fastAnim'), 'fast')}${toggleRow(tr('shuffle'), 'remix')}${toggleRow(tr('labels'), 'badges')}${toggleRow(tr('chapterBg'), 'chapterBg')}
+    <div class="set">${tr('language')}<select id="langSel">${I18N_LANGS.map(l => `<option value="${l.id}"${l.id === S.lang ? ' selected' : ''}>${l.name}</option>`).join('')}</select></div>${toggleRow(tr('sound'), 'sound')}${toggleRow(tr('vibration'), 'vib')}${toggleRow(tr('glyphs'), 'glyph')}${toggleRow(tr('fastAnim'), 'fast')}${toggleRow(tr('shuffle'), 'remix')}${toggleRow(tr('lite'), 'lite')}${toggleRow(tr('labels'), 'badges')}${toggleRow(tr('chapterBg'), 'chapterBg')}
     <div class="btns" style="margin:14px 0 8px"><button class="btn" id="setShop">${tr('designShop')}</button><button class="btn" id="setSave">${tr('saveProg')}</button>${IN_APP ? `<button class="btn" id="setUpd">${tr('updCheck')}</button>` : ''}</div>
     <div class="ver">${tr('version', APP_VERSION)}</div>
     <div class="btns"><button class="btn" id="resetBtn">${tr('reset')}</button><button class="btn pri" id="okBtn">${tr('done')}</button></div>`);
-  c.querySelectorAll('.sw').forEach(s => s.onclick = () => { S[s.dataset.k] = !S[s.dataset.k]; s.classList.toggle('on'); save(); snd.tap(); document.body.classList.toggle('nobadges', S.badges === false); lastBackdrop = ''; applyBackdrop(); if (!$('game').hidden && !anims) renderAll(); });
+  c.querySelectorAll('.sw').forEach(s => s.onclick = () => { S[s.dataset.k] = !S[s.dataset.k]; s.classList.toggle('on'); save(); snd.tap(); document.body.classList.toggle('nobadges', S.badges === false); document.body.classList.toggle('lite', !!S.lite); lastBackdrop = ''; applyBackdrop(); delete $('bg').dataset.kind; applyParticles(); if (!$('game').hidden && !anims) renderAll(); });
   $('setShop').onclick = () => openShop();
   $('setSave').onclick = () => openSaveScreen();
   if ($('setUpd')) $('setUpd').onclick = () => { closeModal(); checkUpdate(true); };
@@ -1023,7 +1031,7 @@ function importCode(text) {
 }
 
 // ---------- Проверка обновлений: раз в день смотрим последний релиз на GitHub ----------
-const APP_VERSION = '2.3.2';
+const APP_VERSION = '2.3.3';
 const RELEASES_API = 'https://api.github.com/repos/QwertyQwertovich/zelevar/releases/latest';
 const verNum = v => String(v).replace(/^v/i, '').split('.').map(x => parseInt(x, 10) || 0);
 function isNewer(a, b) { const x = verNum(a), y = verNum(b); for (let q = 0; q < Math.max(x.length, y.length); q++) { const d = (x[q] || 0) - (y[q] || 0); if (d) return d > 0; } return false; }
@@ -1776,7 +1784,7 @@ function updTimer() {
 }
 function stopTimer() { clearInterval(tInt); tInt = null; $('timer').hidden = true; }
 function pauseTimer(p) { tPaused = p; }
-document.addEventListener('visibilitychange', () => pauseTimer(document.hidden || !$('modal').hidden));
+document.addEventListener('visibilitychange', () => { pauseTimer(document.hidden || !$('modal').hidden); document.body.classList.toggle('paused', document.hidden); });
 function timeUp() {
   if (endState === 'win') return;
   busy = true; snd.lose(); vib([60, 40, 60]);
